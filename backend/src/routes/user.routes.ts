@@ -51,5 +51,5 @@ userRouter.post('signin', async (c) => {
 	}
 	const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
 	setCookie(c, 'accessToken', jwt);
-	return c.json({ jwt });
+	return c.json({ msg: 'Logged in successfully' });
 });

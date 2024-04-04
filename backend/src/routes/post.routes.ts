@@ -33,10 +33,21 @@ blogRouter.use('/*', async (c, next) => {
 	}
 });
 
-blogRouter.get('/:id', (c) => {
-	const id = c.req.param('id');
-	console.log(id);
-	return c.text('get blog route');
+blogRouter.get('/', async (c) => {
+	const prisma = new PrismaClient({
+		datasourceUrl: c.env?.DATABASE_URL,
+	}).$extends(withAccelerate());
+
+	try {
+		const body = await c.req.json();
+		const blog = await prisma.post.findFirst({
+			where: {
+				id: body.id,
+			},
+		});
+		return c.json({ blog });
+	} catch (error) {}
+	return c.text('error occurred');
 });
 
 blogRouter.post('/', async (c) => {
@@ -56,6 +67,28 @@ blogRouter.post('/', async (c) => {
 	return c.json({ blog });
 });
 
-blogRouter.put('/', (c) => {
-	return c.text('signin route');
+blogRouter.put('/', async (c) => {
+	const prisma = new PrismaClient({
+		datasourceUrl: c.env?.DATABASE_URL,
+	}).$extends(withAccelerate());
+
+	const body = await c.req.json();
+	const blog = await prisma.post.update({
+		where: { id: body.id },
+		data: {
+			title: body.title,
+			content: body.content,
+		},
+	});
+
+	return c.json({ blog });
+});
+
+blogRouter.get('/all', async (c) => {
+	const prisma = new PrismaClient({
+		datasourceUrl: c.env?.DATABASE_URL,
+	}).$extends(withAccelerate());
+
+	const blogs = await prisma.post.findMany();
+	return c.json({ blogs });
 });

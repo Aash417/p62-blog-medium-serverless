@@ -1,3 +1,5 @@
+import { PrismaClient } from '@prisma/client/edge';
+import { withAccelerate } from '@prisma/extension-accelerate';
 import { Hono } from 'hono';
 import { getCookie } from 'hono/cookie';
 import { verify } from 'hono/jwt';
@@ -7,6 +9,9 @@ export const blogRouter = new Hono<{
 		DATABASE_URL: string;
 		JWT_SECRET: string;
 	};
+	Variables: {
+		userId: string;
+	};
 }>();
 
 blogRouter.use('/*', async (c, next) => {
@@ -15,11 +20,10 @@ blogRouter.use('/*', async (c, next) => {
 		c.status(403);
 		return c.text('login first');
 	}
-
 	const response = await verify(token, c.env.JWT_SECRET);
-
 	if (response.id) {
-		next();
+		c.set('userId', response.id);
+		await next();
 	} else {
 		c.status(403);
 
@@ -35,8 +39,21 @@ blogRouter.get('/:id', (c) => {
 	return c.text('get blog route');
 });
 
-blogRouter.get('/', (c) => {
-	return c.text('signin route');
+blogRouter.post('/', async (c) => {
+	const prisma = new PrismaClient({
+		datasourceUrl: c.env?.DATABASE_URL,
+	}).$extends(withAccelerate());
+
+	const body = await c.req.json();
+	const blog = await prisma.post.create({
+		data: {
+			title: body.title,
+			content: body.content,
+			authorId: c.get('userId'),
+		},
+	});
+
+	return c.json({ blog });
 });
 
 blogRouter.put('/', (c) => {

@@ -1,5 +1,5 @@
-import { signinInput } from '@aashishk17/medium-common';
-import { PrismaClient } from '@prisma/client/edge';
+import { signinInput, signupInput } from '@aashishk17/medium-common';
+import { Prisma, PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { Hono } from 'hono';
 import { setCookie } from 'hono/cookie';
@@ -18,7 +18,7 @@ userRouter.post('signup', async (c) => {
 	}).$extends(withAccelerate());
 
 	const body = await c.req.json();
-	const { success } = signinInput.safeParse(body);
+	const { success } = signupInput.safeParse(body);
 	if (!success) {
 		c.status(411);
 		return c.json({
@@ -27,19 +27,29 @@ userRouter.post('signup', async (c) => {
 	}
 
 	try {
-		const user = await prisma.user.create({
+		await prisma.user.create({
 			data: {
 				email: body.email,
 				password: body.password,
 			},
 		});
-
-		const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
-
-		return c.json({ done: user, jwt });
-	} catch (e) {
-		console.log(e);
-		return c.status(403);
+		return c.json({ msg: 'user created successfully.' });
+	} catch (error) {
+		c.status(400);
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
+			if (error.code === 'P2002') {
+				console.error(
+					'Email already exists. Please try a different email address.'
+				);
+				return c.json({ error: 'Email already exists.' });
+			} else {
+				console.error(' Prisma error:', error);
+				return c.json({ error });
+			}
+		} else {
+			console.error('Unexpected error:', error);
+			return c.json({ error });
+		}
 	}
 });
 
@@ -49,15 +59,23 @@ userRouter.post('signin', async (c) => {
 	}).$extends(withAccelerate());
 
 	const body = await c.req.json();
+	const { success } = signinInput.safeParse(body);
+	if (!success) {
+		c.status(400);
+		return c.json({
+			message: 'Inputs are not correct',
+		});
+	}
 	const user = await prisma.user.findUnique({
 		where: {
 			email: body.email,
+			password: body.password,
 		},
 	});
 
 	if (!user) {
 		c.status(403);
-		return c.json({ error: 'user not found' });
+		return c.json({ error: 'Incorrect email & password.' });
 	}
 	const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
 	setCookie(c, 'accessToken', jwt);

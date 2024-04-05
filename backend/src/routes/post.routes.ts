@@ -1,3 +1,8 @@
+import {
+	UpdatePostType,
+	createPostInput,
+	updatePostInput,
+} from '@aashishk17/medium-common';
 import { PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { Hono } from 'hono';
@@ -18,7 +23,7 @@ blogRouter.use('/*', async (c, next) => {
 	const token = getCookie(c, 'accessToken') || '';
 	if (!token) {
 		c.status(403);
-		return c.text('login first');
+		return c.json({ msg: 'You are not logged in.' });
 	}
 	const response = await verify(token, c.env.JWT_SECRET);
 	if (response.id) {
@@ -56,6 +61,14 @@ blogRouter.post('/', async (c) => {
 	}).$extends(withAccelerate());
 
 	const body = await c.req.json();
+	const { success } = createPostInput.safeParse(body);
+	if (!success) {
+		c.status(400);
+		return c.json({
+			message: 'Inputs are not correct',
+		});
+	}
+
 	const blog = await prisma.post.create({
 		data: {
 			title: body.title,
@@ -63,8 +76,7 @@ blogRouter.post('/', async (c) => {
 			authorId: c.get('userId'),
 		},
 	});
-
-	return c.json({ blog });
+	return c.json({ msg: 'blog created successfully.', blog });
 });
 
 blogRouter.patch('/', async (c) => {
@@ -74,18 +86,27 @@ blogRouter.patch('/', async (c) => {
 	}).$extends(withAccelerate());
 
 	const body = await c.req.json();
+	const { success } = updatePostInput.safeParse(body);
+	if (!success) {
+		c.status(400);
+		return c.json({
+			message: 'Inputs are not correct',
+		});
+	}
+
+	const updateFields: UpdatePostType = {};
+	if (body.title) updateFields.title = body.title;
+	if (body.content) updateFields.content = body.content;
+
 	await prisma.post.update({
 		where: {
 			id: body.id,
 			authorId: userId,
 		},
-		data: {
-			title: body.title,
-			content: body.content,
-		},
+		data: updateFields,
 	});
 
-	return c.text('updated successfully.');
+	return c.json({ msg: 'Blog updated successfully.' });
 });
 
 blogRouter.get('/all', async (c) => {

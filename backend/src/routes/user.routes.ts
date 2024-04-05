@@ -1,4 +1,8 @@
-import { signinInput, signupInput } from '@aashishk17/medium-common';
+import {
+	SignupType,
+	signinInput,
+	signupInput,
+} from '@aashishk17/medium-common';
 import { Prisma, PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { Hono } from 'hono';
@@ -27,11 +31,14 @@ userRouter.post('signup', async (c) => {
 	}
 
 	try {
+		const createFields: SignupType = {
+			email: body.email,
+			password: body.password,
+		};
+		if (body.name) createFields.name = body.name;
+
 		await prisma.user.create({
-			data: {
-				email: body.email,
-				password: body.password,
-			},
+			data: createFields,
 		});
 		return c.json({ msg: 'user created successfully.' });
 	} catch (error) {

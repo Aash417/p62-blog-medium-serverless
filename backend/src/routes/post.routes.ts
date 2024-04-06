@@ -1,8 +1,4 @@
-import {
-	UpdatePostType,
-	createPostInput,
-	updatePostInput,
-} from '@aashishk17/medium-common';
+import { UpdatePostType, createPostInput, updatePostInput } from '@aashishk17/medium-common';
 import { PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { Hono } from 'hono';
@@ -38,16 +34,26 @@ blogRouter.use('/*', async (c, next) => {
 	}
 });
 
-blogRouter.get('/', async (c) => {
+blogRouter.get('/:id', async (c) => {
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
 
 	try {
-		const body = await c.req.json();
+		const id = await c.req.param('id');
 		const blog = await prisma.post.findFirst({
 			where: {
-				id: body.id,
+				id,
+			},
+			select: {
+				id: true,
+				author: {
+					select: {
+						name: true,
+					},
+				},
+				title: true,
+				content: true,
 			},
 		});
 		return c.json({ blog });
@@ -109,7 +115,7 @@ blogRouter.patch('/', async (c) => {
 	return c.json({ msg: 'Blog updated successfully.' });
 });
 
-blogRouter.get('/all', async (c) => {
+blogRouter.get('/all/', async (c) => {
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());

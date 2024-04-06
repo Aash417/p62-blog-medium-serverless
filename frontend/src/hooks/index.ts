@@ -15,7 +15,7 @@ export const useBlogs = () => {
 
 	useEffect(() => {
 		axios
-			.get(`${import.meta.env.VITE_DatabaseUrl}/api/v1/blog/all`, {
+			.get(`${import.meta.env.VITE_DatabaseUrl}/api/v1/blog/all/`, {
 				headers: {
 					Authorization: localStorage.getItem('accessToken'),
 				},
@@ -27,4 +27,29 @@ export const useBlogs = () => {
 	}, []);
 
 	return { loading, blogs };
+};
+
+export const useBlog = (id: string) => {
+	const [loading, setLoading] = useState(true);
+	const [blog, setBlog] = useState<Blog>({
+		id: '',
+		author: { name: '' },
+		title: '',
+		content: '',
+		publishDate: '',
+	});
+
+	useEffect(() => {
+		axios
+			.get(`${import.meta.env.VITE_DatabaseUrl}/api/v1/blog/${id}`, {
+				headers: {
+					Authorization: localStorage.getItem('accessToken'),
+				},
+			})
+			.then((res) => {
+				setBlog(res.data.blog);
+				setLoading(false);
+			});
+	}, [id]);
+	return { loading, blog };
 };

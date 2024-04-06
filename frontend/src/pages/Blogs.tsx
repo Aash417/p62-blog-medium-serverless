@@ -1,11 +1,12 @@
 import Appbar from '../components/Appbar';
 import BlogCard from '../components/BlogCard';
+import Spinner from '../components/Spinner';
 import { useBlogs } from '../hooks';
 
 function Blogs() {
 	const { loading, blogs } = useBlogs();
 	if (loading) {
-		return <div className=''>...loading</div>;
+		return <Spinner />;
 	}
 
 	return (

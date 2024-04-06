@@ -12,13 +12,19 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
 	});
 
 	async function sendRequest() {
-		const response = await axios.post(
-			`${import.meta.env.VITE_DatabaseUrl}/api/v1/user/${
-				type === 'signup' ? 'signup' : 'signin'
-			}`,
-			postInputs
-		);
-		navigate('/blog');
+		try {
+			const res = await axios.post(
+				`${import.meta.env.VITE_DatabaseUrl}/api/v1/user/${
+					type === 'signup' ? 'signup' : 'signin'
+				}`,
+				postInputs
+			);
+			const { accessToken } = res.data;
+			localStorage.setItem('accessToken', accessToken);
+			navigate('/blogs');
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	return (
@@ -101,7 +107,6 @@ export function LabelledInput({ label, placeholder, type, onChange }: labelledIn
 			<input
 				onChange={onChange}
 				type={type}
-				id='first_name'
 				className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 '
 				placeholder={placeholder}
 				required

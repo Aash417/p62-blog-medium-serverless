@@ -1,8 +1,4 @@
-import {
-	SignupType,
-	signinInput,
-	signupInput,
-} from '@aashishk17/medium-common';
+import { SignupType, signinInput, signupInput } from '@aashishk17/medium-common';
 import { Prisma, PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { Hono } from 'hono';
@@ -37,17 +33,19 @@ userRouter.post('signup', async (c) => {
 		};
 		if (body.name) createFields.name = body.name;
 
-		await prisma.user.create({
+		const user = await prisma.user.create({
 			data: createFields,
 		});
-		return c.json({ msg: 'user created successfully.' });
+		const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
+		setCookie(c, 'accessToken', jwt);
+		c.header('Authorization', jwt);
+
+		return c.json({ msg: 'user created successfully.', accessToken: jwt });
 	} catch (error) {
 		c.status(400);
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			if (error.code === 'P2002') {
-				console.error(
-					'Email already exists. Please try a different email address.'
-				);
+				console.error('Email already exists. Please try a different email address.');
 				return c.json({ error: 'Email already exists.' });
 			} else {
 				console.error(' Prisma error:', error);
@@ -86,5 +84,10 @@ userRouter.post('signin', async (c) => {
 	}
 	const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
 	setCookie(c, 'accessToken', jwt);
-	return c.json({ msg: 'Logged in successfully' });
+	c.header('Authorization', jwt);
+
+	return c.json({
+		msg: 'Logged in successfully',
+		accessToken: jwt,
+	});
 });

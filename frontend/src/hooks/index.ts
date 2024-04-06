@@ -15,9 +15,12 @@ export const useBlogs = () => {
 
 	useEffect(() => {
 		axios
-			.get(`${import.meta.env.VITE_DatabaseUrl}/api/v1/blog/all`, { withCredentials: true })
+			.get(`${import.meta.env.VITE_DatabaseUrl}/api/v1/blog/all`, {
+				headers: {
+					Authorization: localStorage.getItem('accessToken'),
+				},
+			})
 			.then((res) => {
-				console.log(res);
 				setBlogs(res.data.blogs);
 				setLoading(false);
 			});

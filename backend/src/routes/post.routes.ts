@@ -20,7 +20,7 @@ export const blogRouter = new Hono<{
 }>();
 
 blogRouter.use('/*', async (c, next) => {
-	const token = getCookie(c, 'accessToken') || '';
+	const token = getCookie(c, 'accessToken') || c.req.header('Authorization') || '';
 	if (!token) {
 		c.status(403);
 		return c.json({ msg: 'You are not logged in.' });

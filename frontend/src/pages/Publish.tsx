@@ -32,7 +32,7 @@ function Publish() {
 					<button
 						onClick={async () => {
 							const res = await axios.post(
-								`${import.meta.env.VITE_DatabaseUrl}/api/v1/blog`,
+								`${import.meta.env.VITE_BackendUrl}/api/v1/blog`,
 								{
 									title,
 									content,

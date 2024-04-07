@@ -14,7 +14,7 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
 	async function sendRequest() {
 		try {
 			const res = await axios.post(
-				`${import.meta.env.VITE_DatabaseUrl}/api/v1/user/${
+				`${import.meta.env.VITE_BackendUrl}/api/v1/user/${
 					type === 'signup' ? 'signup' : 'signin'
 				}`,
 				postInputs
@@ -28,17 +28,17 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
 	}
 
 	return (
-		<div className='h-screen flex  justify-center flex-col'>
+		<div className='flex flex-col justify-center h-screen'>
 			<div className='flex justify-center'>
-				<div className='bg-gray-50 border border-gray-300 p-10'>
-					<div className='text-3xl font-extrabold mt-4 px-6'>
+				<div className='p-10 border border-gray-300 bg-gray-50'>
+					<div className='px-6 mt-4 text-3xl font-extrabold'>
 						{type === 'signup' ? 'Create an account' : 'Login'}
 					</div>
-					<div className='text-slate-400 px-6'>
+					<div className='px-6 text-slate-400'>
 						{type === 'signup' ? 'Already have and account?' : 'Dont have and account?'}
 						<Link
 							to={type === 'signup' ? '/signin' : '/signup'}
-							className='underline ml-3 '
+							className='ml-3 underline '
 						>
 							{type === 'signup' ? 'Login' : 'Sign up'}
 						</Link>
@@ -103,7 +103,7 @@ interface labelledInputType {
 export function LabelledInput({ label, placeholder, type, onChange }: labelledInputType) {
 	return (
 		<div>
-			<label className='block mb-2 pt-3  text-sm font-semibold text-black'>{label}</label>
+			<label className='block pt-3 mb-2 text-sm font-semibold text-black'>{label}</label>
 			<input
 				onChange={onChange}
 				type={type}

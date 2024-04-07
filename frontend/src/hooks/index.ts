@@ -15,7 +15,7 @@ export const useBlogs = () => {
 
 	useEffect(() => {
 		axios
-			.get(`${import.meta.env.VITE_DatabaseUrl}/api/v1/blog/all/`, {
+			.get(`${import.meta.env.VITE_BackendUrl}/api/v1/blog/all/`, {
 				headers: {
 					Authorization: localStorage.getItem('accessToken'),
 				},
@@ -41,7 +41,7 @@ export const useBlog = (id: string) => {
 
 	useEffect(() => {
 		axios
-			.get(`${import.meta.env.VITE_DatabaseUrl}/api/v1/blog/${id}`, {
+			.get(`${import.meta.env.VITE_BackendUrl}/api/v1/blog/${id}`, {
 				headers: {
 					Authorization: localStorage.getItem('accessToken'),
 				},

@@ -15,23 +15,24 @@ export const blogRouter = new Hono<{
 	};
 }>();
 
-blogRouter.use('/*', async (c, next) => {
-	const token = getCookie(c, 'accessToken') || c.req.header('Authorization') || '';
-	if (!token) {
-		c.status(403);
-		return c.json({ msg: 'You are not logged in.' });
-	}
-	const response = await verify(token, c.env.JWT_SECRET);
-	if (response.id) {
-		c.set('userId', response.id);
-		await next();
-	} else {
-		c.status(403);
+blogRouter.get('/all/', async (c) => {
+	const prisma = new PrismaClient({
+		datasourceUrl: c.env?.DATABASE_URL,
+	}).$extends(withAccelerate());
 
-		return c.json({
-			error: 'unauthorized request.',
-		});
-	}
+	const blogs = await prisma.post.findMany({
+		select: {
+			id: true,
+			author: {
+				select: {
+					name: true,
+				},
+			},
+			title: true,
+			content: true,
+		},
+	});
+	return c.json({ blogs });
 });
 
 blogRouter.get('/:id', async (c) => {
@@ -59,6 +60,25 @@ blogRouter.get('/:id', async (c) => {
 		return c.json({ blog });
 	} catch (error) {}
 	return c.text('error occurred');
+});
+
+blogRouter.use('/*', async (c, next) => {
+	const token = getCookie(c, 'accessToken') || c.req.header('Authorization') || '';
+	if (!token) {
+		c.status(403);
+		return c.json({ msg: 'You are not logged in.' });
+	}
+	const response = await verify(token, c.env.JWT_SECRET);
+	if (response.id) {
+		c.set('userId', response.id);
+		await next();
+	} else {
+		c.status(403);
+
+		return c.json({
+			error: 'unauthorized request.',
+		});
+	}
 });
 
 blogRouter.post('/', async (c) => {
@@ -115,22 +135,3 @@ blogRouter.patch('/', async (c) => {
 	return c.json({ msg: 'Blog updated successfully.' });
 });
 
-blogRouter.get('/all/', async (c) => {
-	const prisma = new PrismaClient({
-		datasourceUrl: c.env?.DATABASE_URL,
-	}).$extends(withAccelerate());
-
-	const blogs = await prisma.post.findMany({
-		select: {
-			id: true,
-			author: {
-				select: {
-					name: true,
-				},
-			},
-			title: true,
-			content: true,
-		},
-	});
-	return c.json({ blogs });
-});

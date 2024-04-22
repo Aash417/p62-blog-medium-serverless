@@ -54,3 +54,29 @@ export const useBlog = (id: string) => {
 	}, [id]);
 	return { loading, blog };
 };
+
+
+export interface blogs {
+	id: string;
+	author: Author;
+	title: string;
+	content: string;
+}
+
+export interface Author {
+	name: string;
+}
+interface ApiResponse {
+	config: any;
+	data: { blogs: blogs[] };
+	headers: any;
+	request: any;
+	status: number;
+	statusText: string;
+}
+
+export async function getBlog(): Promise<ApiResponse> {
+	return await axios.get(`${import.meta.env.VITE_BackendUrl}/api/v1/blog/all/`, {
+		withCredentials: true,
+	});
+}

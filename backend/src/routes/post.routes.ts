@@ -32,7 +32,7 @@ blogRouter.get('/all/', async (c) => {
 			content: true,
 		},
 	});
-	return c.json(blogs);
+	return c.json({ blogs });
 });
 
 blogRouter.get('/:id', async (c) => {
@@ -58,8 +58,9 @@ blogRouter.get('/:id', async (c) => {
 			},
 		});
 		return c.json({ blog });
-	} catch (error) {}
-	return c.text('error occurred');
+	} catch (error) {
+		return c.text('error occurred');
+	}
 });
 
 blogRouter.use('/*', async (c, next) => {

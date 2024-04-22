@@ -1,18 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-
-export async function getBlog() {
-	return await axios.get(`${import.meta.env.VITE_BackendUrl}/api/v1/blog/all/`, {
-		withCredentials: true,
-	});
-}
+import { getBlog } from '../hooks';
 
 function Test() {
 	const { data, isLoading } = useQuery({ queryKey: ['blog'], queryFn: getBlog });
-	if (isLoading) return <div className=''>loading</div>;
-	console.log(data?.data);
 
-	return <div>testing</div>;
+	if (isLoading) return <div className=''>loading</div>;
+
+	console.log('data :', data);
+	console.log('data?.data :', data?.data);
+	console.log('data?.data?.blogs :', data?.data?.blogs);
+
+	const blogs = data?.data?.blogs;
+	return <div>{blogs?.map((b) => b.title)}</div>;
 }
 
 export default Test;

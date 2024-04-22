@@ -16,6 +16,7 @@ export const useBlogs = () => {
 	useEffect(() => {
 		axios
 			.get(`${import.meta.env.VITE_BackendUrl}/api/v1/blog/all/`, {
+				withCredentials: true,
 				headers: {
 					Authorization: localStorage.getItem('accessToken'),
 				},

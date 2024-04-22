@@ -1,17 +1,16 @@
-import Appbar from '../components/Appbar';
+import { useQuery } from '@tanstack/react-query';
 import BlogCard from '../components/BlogCard';
-import Spinner from '../components/Spinner';
-import { useBlogs } from '../hooks';
+import { getBlog } from '../hooks';
 
 function Blogs() {
-	const { loading, blogs } = useBlogs();
-	if (loading) {
-		return <Spinner />;
-	}
+	const { data, isLoading } = useQuery({ queryKey: ['blog'], queryFn: getBlog });
 
+	if (isLoading) return <div className=''>loading</div>;
+
+	const blogs = data?.data?.blogs || [];
 	return (
 		<div className=''>
-			<Appbar />
+			{/* <Appbar /> */}
 			<div className='flex justify-center p-4 '>
 				<div className=''></div>
 				<div className='max-w-xl'>

@@ -5,7 +5,9 @@ function Appbar() {
 	return (
 		<div className='flex justify-between px-10 py-4 border-b'>
 			<Link to='/blogs'>
-				<div className='flex flex-col justify-center pt-1 cursor-pointer '>Blog-Medium</div>
+				<div className='flex flex-col justify-center pt-1 font-mono text-2xl font-extrabold cursor-pointer'>
+					BlogMedium
+				</div>
 			</Link>
 
 			<div className=''>

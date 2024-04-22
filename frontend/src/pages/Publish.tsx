@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Appbar from '../components/Appbar';
 
 function Publish() {
 	const [title, setTitle] = useState('');
@@ -10,7 +9,6 @@ function Publish() {
 
 	return (
 		<div className=''>
-			<Appbar />
 			<div className='flex justify-center w-full pt-8'>
 				<div className='w-full max-w-screen-lg '>
 					<input

@@ -32,7 +32,7 @@ blogRouter.get('/all/', async (c) => {
 			content: true,
 		},
 	});
-	return c.json({ blogs });
+	return c.json(blogs);
 });
 
 blogRouter.get('/:id', async (c) => {
@@ -134,4 +134,3 @@ blogRouter.patch('/', async (c) => {
 
 	return c.json({ msg: 'Blog updated successfully.' });
 });
-

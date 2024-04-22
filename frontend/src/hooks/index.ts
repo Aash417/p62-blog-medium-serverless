@@ -17,9 +17,9 @@ export const useBlogs = () => {
 		axios
 			.get(`${import.meta.env.VITE_BackendUrl}/api/v1/blog/all/`, {
 				withCredentials: true,
-				headers: {
-					Authorization: localStorage.getItem('accessToken'),
-				},
+				// headers: {
+				// 	Authorization: localStorage.getItem('accessToken'),
+				// },
 			})
 			.then((res) => {
 				setBlogs(res.data.blogs);

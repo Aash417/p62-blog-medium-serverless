@@ -9,12 +9,7 @@ const app = new Hono();
 app.use(
 	cors({
 		credentials: true,
-		origin: [
-			'http://localhost:5173',
-			'https://p62-blog-medium.vercel.app/',
-			'https://blog-medium-git-main-aashishs-projects-7b33b82c.vercel.app/',
-			'https://blog-medium-2vpe7ya9s-aashishs-projects-7b33b82c.vercel.app/',
-		],
+		origin: ['http://localhost:5173', 'https://p62-blog-medium.vercel.app/'],
 	})
 );
 app.get('/', (c) => {

@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import BlogCard from '../components/BlogCard';
+import Loader from '../components/Loader';
 import { getBlog } from '../hooks';
 
 function Blogs() {
 	const { data, isLoading } = useQuery({ queryKey: ['blog'], queryFn: getBlog });
 
-	if (isLoading) return <div className=''>loading</div>;
+	if (isLoading) return <Loader />;
 
 	const blogs = data?.data?.blogs || [];
 	return (

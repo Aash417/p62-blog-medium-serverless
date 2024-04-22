@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Applayout from './components/Applayout';
+import AppLayout from './components/AppLayout';
+import Blog from './pages/Blog';
 import Blogs from './pages/Blogs';
 import Publish from './pages/Publish';
 
@@ -18,15 +19,13 @@ function App() {
 			<QueryClientProvider client={queryClient}>
 				<BrowserRouter>
 					<Routes>
-						{/* <Route path='/' element={<Test />} /> */}
-
-						<Route element={<Applayout />}>
+						<Route element={<AppLayout />}>
 							<Route index element={<Blogs />} />
 							<Route path='/publish' element={<Publish />} />
+							<Route path='/blog/:id' element={<Blog />} />
 							{/* Route path='/signup' element={<Signup />} />
 					<Route path='/signin' element={<Signin />} />
-					<Route path='/blog/:id' element={<Blog />} /> */}
-							{/* <Route path='/blogs' element={<Blogs />} /> */}
+					<Route path='/blogs' element={<Blogs />} /> */}
 						</Route>
 					</Routes>
 				</BrowserRouter>

@@ -23,7 +23,7 @@ function Auth({ type }: { type: 'signup' | 'login' }) {
 
 			const { accessToken } = res.data;
 			localStorage.setItem('accessToken', accessToken);
-			navigate('/');
+			// navigate('/');
 		} catch (error) {
 			console.log(error);
 		}

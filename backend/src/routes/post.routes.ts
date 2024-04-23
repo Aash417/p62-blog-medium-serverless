@@ -15,7 +15,27 @@ export const blogRouter = new Hono<{
 	};
 }>();
 
-blogRouter.get('/all/', async (c) => {
+blogRouter.use('/*', async (c, next) => {
+	const token = getCookie(c, 'accessToken') || c.req.header('Authorization') || '';
+	console.log(token);
+	if (!token) {
+		c.status(403);
+		return c.json({ msg: 'You are not logged in.' });
+	}
+	const response = await verify(token, c.env.JWT_SECRET);
+	if (response.id) {
+		c.set('userId', response.id);
+		await next();
+	} else {
+		c.status(403);
+
+		return c.json({
+			error: 'unauthorized request.',
+		});
+	}
+});
+
+blogRouter.get('/all', async (c) => {
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
@@ -35,7 +55,7 @@ blogRouter.get('/all/', async (c) => {
 	return c.json({ blogs });
 });
 
-blogRouter.get('/:id', async (c) => {
+blogRouter.get('/id/:id', async (c) => {
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
@@ -63,26 +83,13 @@ blogRouter.get('/:id', async (c) => {
 	}
 });
 
-blogRouter.use('/*', async (c, next) => {
-	const token = getCookie(c, 'accessToken') || c.req.header('Authorization') || '';
-	if (!token) {
-		c.status(403);
-		return c.json({ msg: 'You are not logged in.' });
-	}
-	const response = await verify(token, c.env.JWT_SECRET);
-	if (response.id) {
-		c.set('userId', response.id);
-		await next();
-	} else {
-		c.status(403);
-
-		return c.json({
-			error: 'unauthorized request.',
-		});
-	}
+blogRouter.get('/getSession', async (c) => {
+	return c.json({
+		msg: 'auth working',
+	});
 });
 
-blogRouter.post('/', async (c) => {
+blogRouter.post('/create', async (c) => {
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
@@ -100,13 +107,13 @@ blogRouter.post('/', async (c) => {
 		data: {
 			title: body.title,
 			content: body.content,
-			authorId: c.get('userId'),
+			authorId: Number(c.get('userId')),
 		},
 	});
 	return c.json({ msg: 'blog created successfully.', blog });
 });
 
-blogRouter.patch('/', async (c) => {
+blogRouter.patch('/update', async (c) => {
 	const userId = c.get('userId');
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL,

@@ -84,10 +84,10 @@ userRouter.post('login', async (c) => {
 	}
 	const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
 	setCookie(c, 'accessToken', jwt, { path: '/', secure: true, sameSite: 'None' });
-	c.header('Authorization', jwt);
+	// c.header('Authorization', jwt);
 
 	return c.json({
 		msg: 'Logged in successfully',
-		accessToken: jwt,
+		// accessToken: jwt,
 	});
 });

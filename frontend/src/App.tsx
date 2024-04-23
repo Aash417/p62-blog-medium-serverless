@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AppLayout from './components/AppLayout';
+import ProtectedRoute from './components/ProtectedRoute';
 import Blog from './pages/Blog';
 import Blogs from './pages/Blogs';
 import Publish from './pages/Publish';
@@ -27,6 +28,7 @@ function App() {
 							<Route path='/publish' element={<Publish />} />
 							<Route path='/blog/:id' element={<Blog />} />
 						</Route>
+						<Route path='/auth' element={<ProtectedRoute />} />
 						<Route path='/login' element={<Signin />} />
 						<Route path='/signup' element={<Signup />} />
 					</Routes>

@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-interface Blog {
+interface blog {
 	id: string;
 	author: { name: string };
 	title: string;
@@ -11,7 +12,7 @@ interface Blog {
 
 export const useBlogs = () => {
 	const [loading, setLoading] = useState(true);
-	const [blogs, setBlogs] = useState<Blog[]>([]);
+	const [blogs, setBlogs] = useState<blog[]>([]);
 
 	useEffect(() => {
 		axios
@@ -32,7 +33,7 @@ export const useBlogs = () => {
 
 export const useBlog = (id: string) => {
 	const [loading, setLoading] = useState(true);
-	const [blog, setBlog] = useState<Blog>({
+	const [blog, setBlog] = useState<blog>({
 		id: '',
 		author: { name: '' },
 		title: '',
@@ -55,20 +56,9 @@ export const useBlog = (id: string) => {
 	return { loading, blog };
 };
 
-
-export interface blogs {
-	id: string;
-	author: Author;
-	title: string;
-	content: string;
-}
-
-export interface Author {
-	name: string;
-}
 interface ApiResponse {
 	config: any;
-	data: { blogs: blogs[] };
+	data: { blogs: blog[] };
 	headers: any;
 	request: any;
 	status: number;

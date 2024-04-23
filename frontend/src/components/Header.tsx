@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export default function Header() {
 	return (
 		<header className='flex justify-between px-10 py-4 border-b'>
-			<Link to='/blogs'>
+			<Link to='/'>
 				<div className='flex flex-col justify-center pt-1 font-mono text-2xl font-extrabold cursor-pointer'>
 					BlogMedium
 				</div>
@@ -16,7 +16,9 @@ export default function Header() {
 					</svg>
 					Write
 				</Link>
-				<HiOutlineUserCircle size={30} />
+				<Link to={'/login'}>
+					<HiOutlineUserCircle size={30} />
+				</Link>
 			</nav>
 		</header>
 	);

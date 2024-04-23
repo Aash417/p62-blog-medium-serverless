@@ -8,8 +8,12 @@ const app = new Hono();
 
 app.use(
 	cors({
+		origin: [
+			'http://localhost:5173',
+			'http://localhost:3000',
+			'https://p62-blog-medium.vercel.app/',
+		],
 		credentials: true,
-		origin: ['http://localhost:5173', 'https://p62-blog-medium.vercel.app/'],
 	})
 );
 app.get('/', (c) => {

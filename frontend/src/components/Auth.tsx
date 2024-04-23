@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ChangeEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Auth({ type }: { type: 'signup' | 'signin' }) {
+function Auth({ type }: { type: 'signup' | 'login' }) {
 	const navigate = useNavigate();
 	const [postInputs, setPostInputs] = useState<SignupType>({
 		name: '',
@@ -15,13 +15,15 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
 		try {
 			const res = await axios.post(
 				`${import.meta.env.VITE_BackendUrl}/api/v1/user/${
-					type === 'signup' ? 'signup' : 'signin'
+					type === 'signup' ? 'signup' : 'login'
 				}`,
-				postInputs
+				postInputs,
+				{ withCredentials: true }
 			);
+
 			const { accessToken } = res.data;
 			localStorage.setItem('accessToken', accessToken);
-			navigate('/blogs');
+			navigate('/');
 		} catch (error) {
 			console.log(error);
 		}
@@ -37,7 +39,7 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
 					<div className='px-6 text-slate-400'>
 						{type === 'signup' ? 'Already have and account?' : 'Dont have and account?'}
 						<Link
-							to={type === 'signup' ? '/signin' : '/signup'}
+							to={type === 'signup' ? '/login' : '/signup'}
 							className='ml-3 underline '
 						>
 							{type === 'signup' ? 'Login' : 'Sign up'}

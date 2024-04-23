@@ -58,7 +58,7 @@ userRouter.post('signup', async (c) => {
 	}
 });
 
-userRouter.post('signin', async (c) => {
+userRouter.post('login', async (c) => {
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
@@ -83,7 +83,7 @@ userRouter.post('signin', async (c) => {
 		return c.json({ error: 'Incorrect email & password.' });
 	}
 	const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
-	setCookie(c, 'accessToken', jwt);
+	setCookie(c, 'accessToken', jwt, { path: '/', secure: true, sameSite: 'None' });
 	c.header('Authorization', jwt);
 
 	return c.json({

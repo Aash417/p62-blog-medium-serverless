@@ -11,23 +11,21 @@ interface BlogCardProps {
 function BlogCard({ id, authorName, title, content, publishDate }: BlogCardProps) {
 	return (
 		<Link to={`/blog/${id}`}>
-			<div className='border-b border-slate-200 pb-4 pt-4 cursor-pointer'>
+			<div className='pt-4 pb-4 border-b cursor-pointer border-slate-200'>
 				<div className='flex'>
-					<div className='flex justify-center flex-col'>
+					<div className='flex flex-col justify-center'>
 						<Avatar name={authorName} />
 					</div>
-					<div className='text-sm font-extralight pl-2'>{authorName}</div>
-					<div className='justify-center flex-col flex pl-3'>
-						<div className='h-1 w-1 bg-slate-500 rounded-full'></div>
+					<div className='pl-2 text-sm font-extralight'>{authorName}</div>
+					<div className='flex flex-col justify-center pl-3'>
+						<div className='w-1 h-1 rounded-full bg-slate-500'></div>
 					</div>
-					<div className='text-sm font-thin text-slate-400 pl-3 '>{publishDate}</div>
+					<div className='pl-3 text-sm font-thin text-slate-400 '>{publishDate}</div>
 				</div>
 
-				<div className='text-xl font-semibold'>{title}</div>
-
-				<div className='text-md font-thin '>{content.slice(0, 100) + '...'}</div>
-
-				<div className='text-slate-500 text-sm font-thin pt-4'>{`${Math.ceil(
+				<div className='text-xl font-bold'>{title}</div>
+				<div className='font-thin text-md '>{content.slice(0, 100) + '...'}</div>
+				<div className='pt-4 text-sm font-thin text-slate-500'>{`${Math.ceil(
 					content.length / 100
 				)} min read`}</div>
 			</div>

@@ -1,10 +1,10 @@
 import { SignupType } from '@aashishk17/medium-common';
 import axios from 'axios';
 import { ChangeEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Auth({ type }: { type: 'signup' | 'login' }) {
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 	const [postInputs, setPostInputs] = useState<SignupType>({
 		name: '',
 		email: '',
@@ -23,7 +23,7 @@ function Auth({ type }: { type: 'signup' | 'login' }) {
 
 			const { accessToken } = res.data;
 			localStorage.setItem('accessToken', accessToken);
-			// navigate('/');
+			navigate('/');
 		} catch (error) {
 			console.log(error);
 		}

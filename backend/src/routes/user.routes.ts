@@ -2,8 +2,8 @@ import { SignupType, signinInput, signupInput } from '@aashishk17/medium-common'
 import { Prisma, PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { Hono } from 'hono';
-import { setCookie } from 'hono/cookie';
-import { sign } from 'hono/jwt';
+import { getCookie, setCookie } from 'hono/cookie';
+import { sign, verify } from 'hono/jwt';
 
 export const userRouter = new Hono<{
 	Bindings: {
@@ -90,4 +90,32 @@ userRouter.post('login', async (c) => {
 		msg: 'Logged in successfully',
 		// accessToken: jwt,
 	});
+});
+
+userRouter.get('currentUser', async (c) => {
+	const token = getCookie(c, 'accessToken') || c.req.header('Authorization') || '';
+	if (!token) {
+		c.status(403);
+		return c.json({ msg: 'You are not logged in.' });
+	}
+	const response = await verify(token, c.env.JWT_SECRET);
+	if (response.id) {
+		const prisma = new PrismaClient({
+			datasourceUrl: c.env?.DATABASE_URL,
+		}).$extends(withAccelerate());
+
+		const user = await prisma.user.findFirst({
+			where: {
+				id: response.id,
+			},
+		});
+		return c.json({
+			user,
+		});
+	} else {
+		c.status(403);
+		return c.json({
+			msg: 'unauthorized request.',
+		});
+	}
 });

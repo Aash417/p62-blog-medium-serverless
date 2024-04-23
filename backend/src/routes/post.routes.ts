@@ -17,7 +17,6 @@ export const blogRouter = new Hono<{
 
 blogRouter.use('/*', async (c, next) => {
 	const token = getCookie(c, 'accessToken') || c.req.header('Authorization') || '';
-	console.log(token);
 	if (!token) {
 		c.status(403);
 		return c.json({ msg: 'You are not logged in.' });
@@ -64,7 +63,7 @@ blogRouter.get('/id/:id', async (c) => {
 		const id = await c.req.param('id');
 		const blog = await prisma.post.findFirst({
 			where: {
-				id,
+				id: Number(id),
 			},
 			select: {
 				id: true,
@@ -135,7 +134,7 @@ blogRouter.patch('/update', async (c) => {
 	await prisma.post.update({
 		where: {
 			id: body.id,
-			authorId: userId,
+			authorId: Number(userId),
 		},
 		data: updateFields,
 	});

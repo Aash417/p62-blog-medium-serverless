@@ -23,12 +23,17 @@ function App() {
 				<ReactQueryDevtools initialIsOpen={true} buttonPosition='bottom-left' />
 				<BrowserRouter>
 					<Routes>
-						<Route element={<AppLayout />}>
+						<Route
+							element={
+								<ProtectedRoute>
+									<AppLayout />
+								</ProtectedRoute>
+							}
+						>
 							<Route index element={<Blogs />} />
 							<Route path='/publish' element={<Publish />} />
 							<Route path='/blog/:id' element={<Blog />} />
 						</Route>
-						<Route path='/auth' element={<ProtectedRoute />} />
 						<Route path='/login' element={<Signin />} />
 						<Route path='/signup' element={<Signup />} />
 					</Routes>

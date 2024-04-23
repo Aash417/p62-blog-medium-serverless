@@ -66,7 +66,8 @@ interface ApiResponse {
 }
 
 export async function getBlog(): Promise<ApiResponse> {
-	return await axios.get(`${import.meta.env.VITE_BackendUrl}/api/v1/blog/all/`, {
+	return await axios.get(`${import.meta.env.VITE_BackendUrl}/api/v1/blog/all`, {
 		withCredentials: true,
 	});
 }
+

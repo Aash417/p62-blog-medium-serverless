@@ -8,7 +8,7 @@ interface BlogCardProps {
 	publishDate: string;
 }
 
-function BlogCard({ id, authorName, title, content, publishDate }: BlogCardProps) {
+export function BlogCard({ id, authorName, title, content, publishDate }: BlogCardProps) {
 	return (
 		<Link to={`/blog/${id}`}>
 			<div className='pt-4 pb-4 border-b cursor-pointer border-slate-200'>
@@ -50,4 +50,4 @@ export function Avatar({ name, size = 'small' }: { name: string; size?: string }
 		</div>
 	);
 }
-export default BlogCard;
+

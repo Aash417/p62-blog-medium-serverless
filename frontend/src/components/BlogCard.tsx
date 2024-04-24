@@ -23,8 +23,8 @@ export function BlogCard({ id, authorName, title, content, publishDate }: BlogCa
 					<div className='pl-3 text-sm font-thin text-slate-400 '>{publishDate}</div>
 				</div>
 
-				<div className='text-xl font-bold'>{title}</div>
-				<div className='font-thin text-md '>{content.slice(0, 100) + '...'}</div>
+				<div className='pt-3 text-xl font-bold'>{title.slice(0, 100)}</div>
+				<div className='pt-2 font-thin text-md '>{content.slice(0, 100) + '...'}</div>
 				<div className='pt-4 text-sm font-thin text-slate-500'>{`${Math.ceil(
 					content.length / 100
 				)} min read`}</div>

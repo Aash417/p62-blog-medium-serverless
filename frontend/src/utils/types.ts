@@ -13,6 +13,7 @@ export interface blogDataType {
 	title: string;
 	content: string;
 	publishDate: string;
+	createdAt: string;
 }
 
 export interface UserDataType {
@@ -26,4 +27,4 @@ export interface UserDataType {
 export type allBlogResponse = Pick<
 	ApiResponse,
 	'config' | 'headers' | 'request' | 'status' | 'statusText'
-> & { data: { blogs: blogDataType[] } };
+> & { blogs: blogDataType[] };

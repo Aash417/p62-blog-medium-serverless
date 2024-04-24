@@ -49,6 +49,7 @@ blogRouter.get('/all', async (c) => {
 			},
 			title: true,
 			content: true,
+			createdAt: true,
 		},
 	});
 	return c.json({ blogs });
@@ -60,7 +61,7 @@ blogRouter.get('/id/:id', async (c) => {
 	}).$extends(withAccelerate());
 
 	try {
-		const id = await c.req.param('id');
+		const id = c.req.param('id');
 		const blog = await prisma.post.findFirst({
 			where: {
 				id: Number(id),
@@ -74,6 +75,7 @@ blogRouter.get('/id/:id', async (c) => {
 				},
 				title: true,
 				content: true,
+				createdAt: true,
 			},
 		});
 		return c.json({ blog });

@@ -1,8 +1,8 @@
 import { handleAxiosError } from '@utils/helperFn';
-import { allBlogResponse } from '@utils/types';
+import { allBlogsResponse, oneBlogResponse } from '@utils/types';
 import axios from 'axios';
 
-export async function getAllBlogs(): Promise<allBlogResponse | undefined> {
+export async function getAllBlogs(): Promise<allBlogsResponse | undefined> {
 	try {
 		const response = await axios.get(`${import.meta.env.VITE_BackendUrl}/api/v1/blog/all`, {
 			withCredentials: true,
@@ -13,13 +13,11 @@ export async function getAllBlogs(): Promise<allBlogResponse | undefined> {
 	}
 }
 
-export async function getOneBlogs(id: number) {
+export async function getOneBlog(id: string): Promise<oneBlogResponse | undefined> {
 	try {
 		const response = await axios.get(
 			`${import.meta.env.VITE_BackendUrl}/api/v1/blog/id/${id}`,
-			{
-				withCredentials: true,
-			}
+			{ withCredentials: true }
 		);
 		return response.data;
 	} catch (error) {

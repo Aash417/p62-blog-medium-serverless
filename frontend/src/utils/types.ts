@@ -24,7 +24,12 @@ export interface UserDataType {
 	createdAt: string;
 }
 
-export type allBlogResponse = Pick<
+export type allBlogsResponse = Pick<
 	ApiResponse,
 	'config' | 'headers' | 'request' | 'status' | 'statusText'
 > & { blogs: blogDataType[] };
+
+export type oneBlogResponse = Pick<
+	ApiResponse,
+	'config' | 'headers' | 'request' | 'status' | 'statusText'
+> & { blog: blogDataType };

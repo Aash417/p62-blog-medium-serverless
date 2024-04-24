@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAllBlogs } from '@service/apiBlogs';
+import { getAllBlogs, getOneBlog } from '@service/apiBlogs';
 import { useQuery } from '@tanstack/react-query';
 
 export const useBlogs = () => {
@@ -8,7 +8,16 @@ export const useBlogs = () => {
 		queryFn: getAllBlogs,
 	});
 	const blogs = data?.blogs || [];
-	return { isLoading,blogs};
+	return { isLoading, blogs };
+};
+
+export const useBlog = (id: string) => {
+	const { data, isLoading } = useQuery({
+		queryKey: ['blog'],
+		queryFn: () => getOneBlog(id),
+	});
+	const blog = data?.blog;
+	return { isLoading, blog };
 };
 
 // export const useBlog = (id: string) => {

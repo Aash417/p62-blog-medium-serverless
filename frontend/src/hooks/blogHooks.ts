@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAllBlogs, getOneBlog } from '@service/apiBlogs';
-import { useQuery } from '@tanstack/react-query';
+import { createBlog, getAllBlogs, getOneBlog } from '@service/apiBlogs';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 export const useBlogs = () => {
 	const { data, isLoading } = useQuery({
@@ -20,27 +22,23 @@ export const useBlog = (id: string) => {
 	return { isLoading, blog };
 };
 
-// export const useBlog = (id: string) => {
-// 	const [loading, setLoading] = useState(true);
-// 	const [blog, setBlog] = useState<blogDataType>({
-// 		id: '',
-// 		author: { name: '' },
-// 		title: '',
-// 		content: '',
-// 		publishDate: '',
-// 	});
-
-// 	useEffect(() => {
-// 		axios
-// 			.get(`${import.meta.env.VITE_BackendUrl}/api/v1/blog/${id}`, {
-// 				headers: {
-// 					Authorization: localStorage.getItem('accessToken'),
-// 				},
-// 			})
-// 			.then((res) => {
-// 				setBlog(res.data.blog);
-// 				setLoading(false);
-// 			});
-// 	}, [id]);
-// 	return { loading, blog };
-// };
+export const useCreateBlog = () => {
+	const navigate = useNavigate();
+	const queryClient = useQueryClient();
+	const { mutate, isPending } = useMutation({
+		mutationFn: ({ title, content }: { title: string; content: string }) =>
+			createBlog({ title, content }),
+		onSuccess: (data) => {
+			toast.success('blog created');
+			queryClient.invalidateQueries({
+				queryKey: ['blogs'],
+			});
+			navigate(`/blog/${data.blog.id}`);
+		},
+		onError: (error) => {
+			toast.error('Something went wrong, try again later...');
+			console.log(error);
+		},
+	});
+	return { mutate, isPending };
+};

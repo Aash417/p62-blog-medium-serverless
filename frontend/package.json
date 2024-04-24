@@ -11,13 +11,15 @@
   },
   "dependencies": {
     "@aashishk17/medium-common": "^1.0.1",
+    "@tanstack/react-form": "^0.19.2",
     "@tanstack/react-query": "^5.31.0",
     "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.1.0",
     "react-router-dom": "^6.22.3",
-    "react-spinners": "^0.13.8"
+    "react-spinners": "^0.13.8",
+    "sonner": "^1.4.41"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.31.0",

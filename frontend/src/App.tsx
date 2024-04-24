@@ -2,12 +2,14 @@ import Blog from '@pages/Blog';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import AppLayout from './components/AppLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import HomePage from './pages/HomePage';
 import Publish from './pages/Publish';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
+
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
@@ -22,6 +24,7 @@ function App() {
 			<QueryClientProvider client={queryClient}>
 				<ReactQueryDevtools initialIsOpen={true} buttonPosition='bottom-left' />
 				<BrowserRouter>
+					<Toaster />
 					<Routes>
 						<Route
 							element={

@@ -111,7 +111,7 @@ blogRouter.post('/create', async (c) => {
 			authorId: Number(c.get('userId')),
 		},
 	});
-	return c.json({ msg: 'blog created successfully.', blog });
+	return c.json({ blog });
 });
 
 blogRouter.patch('/update', async (c) => {

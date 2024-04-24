@@ -25,12 +25,13 @@ export async function getOneBlog(id: string): Promise<oneBlogResponse | undefine
 	}
 }
 
-export async function createBlog(title: string, content: string) {
+export async function createBlog({ title, content }: { title: string; content: string }) {
 	try {
-		const response = await axios.post(`${import.meta.env.VITE_BackendUrl}/api/v1/blog`, {
-			title,
-			content,
-		});
+		const response = await axios.post(
+			`${import.meta.env.VITE_BackendUrl}/api/v1/blog/create`,
+			{ title, content },
+			{ withCredentials: true }
+		);
 		return response.data;
 	} catch (error) {
 		handleAxiosError(error);

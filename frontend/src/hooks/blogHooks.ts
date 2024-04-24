@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createBlog, getAllBlogs, getOneBlog } from '@service/apiBlogs';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
 export const useBlogs = () => {
@@ -14,8 +14,9 @@ export const useBlogs = () => {
 };
 
 export const useBlog = (id: string) => {
+	const { id: blogId } = useParams();
 	const { data, isLoading } = useQuery({
-		queryKey: ['blog'],
+		queryKey: ['blog', blogId],
 		queryFn: () => getOneBlog(id),
 	});
 	const blog = data?.blog;

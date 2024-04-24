@@ -11,7 +11,7 @@ interface BlogCardProps {
 export function BlogCard({ id, authorName, title, content, publishDate }: BlogCardProps) {
 	return (
 		<Link to={`/blog/${id}`}>
-			<div className='pt-4 pb-4 border-b cursor-pointer border-slate-200'>
+			<div className='pt-4 pb-2 border-b cursor-pointer border-slate-200'>
 				<div className='flex'>
 					<div className='flex flex-col justify-center'>
 						<Avatar name={authorName} />
@@ -23,8 +23,8 @@ export function BlogCard({ id, authorName, title, content, publishDate }: BlogCa
 					<div className='pl-3 text-sm font-thin text-slate-400 '>{publishDate}</div>
 				</div>
 
-				<div className='pt-3 text-xl font-bold'>{title.slice(0, 100)}</div>
-				<div className='pt-2 font-thin text-md '>{content.slice(0, 100) + '...'}</div>
+				<div className='text-2xl font-bold '>{title.slice(0, 100)}</div>
+				<div className='text-sm font-extralight'>{content.slice(0, 200) + '...'}</div>
 				<div className='pt-4 text-sm font-thin text-slate-500'>{`${Math.ceil(
 					content.length / 100
 				)} min read`}</div>

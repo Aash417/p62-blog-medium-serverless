@@ -1,8 +1,8 @@
+import { BlogCard } from '@components/BlogCard';
+import Loader from '@components/Loader';
 import { useBlogs } from '@hooks/blogHooks';
 import { formatDate } from '@utils/helperFn';
 import { blogDataType } from '@utils/types';
-import { BlogCard } from '../components/BlogCard';
-import Loader from '../components/Loader';
 
 function Blogs() {
 	const { blogs, isLoading } = useBlogs();

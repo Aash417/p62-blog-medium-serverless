@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCreateBlog } from '@hooks/blogHooks';
 import { FieldApi, useForm } from '@tanstack/react-form';
+import { Editor } from '@tinymce/tinymce-react';
+import { useState } from 'react';
 
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 	return (
@@ -21,7 +24,7 @@ function Publish() {
 			mutate(value);
 		},
 	});
-
+	const [value, setValue] = useState('');
 	return (
 		<div className='flex items-center justify-center pt-8 mx-auto'>
 			<div className='w-full font-mono rounded-lg lg:w-2/4 md:w-2/4'>
@@ -81,20 +84,47 @@ function Publish() {
 							name='content'
 							children={(field) => (
 								<>
-									<input
-										className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+									<Editor
+										apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
+										init={{
+											height: 300,
+											menubar: true,
+											plugins: [
+												'image',
+												'advlist',
+												'autolink',
+												'lists',
+												'link',
+												'image',
+												'charmap',
+												'preview',
+												'anchor',
+												'searchreplace',
+												'visualblocks',
+												'code',
+												'fullscreen',
+												'insertdatetime',
+												'media',
+												'table',
+												'code',
+												'help',
+												'wordcount',
+												'anchor',
+											],
+											toolbar:
+												'undo redo | blocks | image | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help',
+											content_style:
+												'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+										}}
+										// onEditorChange={onChange={(e) => field.handleChange(e.target.value)}}
+
 										id={field.name}
-										name={field.name}
-										value={field.state.value}
+										// name={field.name}
+										value={value}
 										onBlur={field.handleBlur}
-										onChange={(e) => field.handleChange(e.target.value)}
+										onEditorChange={(newValue) => setValue(newValue)}
+										onChange={() => field.handleChange(value)}
 									/>
-									<label
-										className='peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-										htmlFor={field.name}
-									>
-										Content
-									</label>
 									<FieldInfo field={field} />
 								</>
 							)}

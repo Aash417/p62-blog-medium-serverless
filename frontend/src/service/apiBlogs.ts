@@ -1,7 +1,8 @@
 import { handleAxiosError } from '@utils/helperFn';
+import { allBlogResponse } from '@utils/types';
 import axios from 'axios';
 
-export async function getAllBlogs() {
+export async function getAllBlogs(): Promise<allBlogResponse | undefined> {
 	try {
 		const response = await axios.get(`${import.meta.env.VITE_BackendUrl}/api/v1/blog/all`, {
 			withCredentials: true,

@@ -1,4 +1,4 @@
-import { useUser } from '@hooks/useUser';
+import { useUser } from '@hooks/userHooks';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loader from './Loader';

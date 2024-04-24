@@ -1,10 +1,13 @@
+import { getAllBlogs } from '@service/apiBlogs';
 import { useQuery } from '@tanstack/react-query';
 import { BlogCard } from '../components/BlogCard';
 import Loader from '../components/Loader';
-import { getBlog } from '../hooks';
 
 function Blogs() {
-	const { data, isLoading } = useQuery({ queryKey: ['blog'], queryFn: getBlog });
+	const { data, isLoading } = useQuery({
+		queryKey: ['blog'],
+		queryFn: getAllBlogs,
+	});
 
 	if (isLoading) return <Loader />;
 

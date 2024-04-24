@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getBlog } from '../hooks';
+import { getBlog } from '../hooks/blogHooks';
 
 function Test() {
 	const { data, isLoading } = useQuery({ queryKey: ['blog'], queryFn: getBlog });

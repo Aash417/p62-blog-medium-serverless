@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { Avatar } from '../components/BlogCard';
 import Loader from '../components/Loader';
-import { useBlog } from '../hooks';
+import { useBlog } from '../hooks/blogHooks';
 
 function Blog() {
 	const { id } = useParams();

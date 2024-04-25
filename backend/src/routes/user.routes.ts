@@ -23,7 +23,7 @@ userRouter.post('signup', async (c) => {
 	if (!success) {
 		c.status(411);
 		return c.json({
-			message: 'Inputs are not correct',
+			msg: 'Inputs are not correct',
 		});
 	}
 
@@ -48,7 +48,7 @@ userRouter.post('signup', async (c) => {
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			if (error.code === 'P2002') {
 				console.error('Email already exists. Please try a different email address.');
-				return c.json({ error: 'Email already exists.' });
+				return c.json({ msg: 'Email already exists.' });
 			} else {
 				console.error(' Prisma error:', error);
 				return c.json({ error });
@@ -69,7 +69,7 @@ userRouter.post('login', async (c) => {
 	if (!success) {
 		c.status(400);
 		return c.json({
-			message: 'Inputs are not correct',
+			msg: 'Inputs are not correct',
 		});
 	}
 	const user = await prisma.user.findUnique({
@@ -80,7 +80,7 @@ userRouter.post('login', async (c) => {
 	});
 	if (!user) {
 		c.status(403);
-		return c.json({ error: 'Incorrect email & password.' });
+		return c.json({ msg: 'Incorrect email & password.' });
 	}
 	const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
 	setCookie(c, 'accessToken', jwt, { path: '/', secure: true, sameSite: 'None' });

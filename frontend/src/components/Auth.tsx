@@ -1,32 +1,15 @@
 import { SignupType } from '@aashishk17/medium-common';
-import axios from 'axios';
+import { useAuth } from '@hooks/userHooks';
 import { ChangeEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 
 function Auth({ type }: { type: 'signup' | 'login' }) {
-	const navigate = useNavigate();
 	const [postInputs, setPostInputs] = useState<SignupType>({
 		name: '',
 		email: '',
 		password: '',
 	});
-
-	async function sendRequest() {
-		try {
-			await axios.post(
-				`${import.meta.env.VITE_BackendUrl}/api/v1/user/${
-					type === 'signup' ? 'signup' : 'login'
-				}`,
-				postInputs,
-				{ withCredentials: true }
-			);
-			toast.success('Welcome');
-			navigate('/');
-		} catch (error) {
-			console.log(error);
-		}
-	}
+	const { mutate } = useAuth();
 
 	return (
 		<div className='flex flex-col justify-center h-screen'>
@@ -81,7 +64,7 @@ function Auth({ type }: { type: 'signup' | 'login' }) {
 							}}
 						/>
 						<button
-							onClick={sendRequest}
+							onClick={() => mutate({ type, postInputs })}
 							type='button'
 							className='mt-8 w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700'
 						>

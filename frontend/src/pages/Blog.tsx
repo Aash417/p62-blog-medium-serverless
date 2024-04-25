@@ -1,9 +1,9 @@
-import { Avatar } from '@components/BlogCard';
-import Loader from '@components/Loader';
-import { useBlog } from '@hooks/blogHooks';
-import { formatDate } from '@utils/helperFn';
 import parse from 'html-react-parser';
 import { useParams } from 'react-router-dom';
+import { Avatar } from '../components/BlogCard';
+import Loader from '../components/Loader';
+import { useBlog } from '../hooks/blogHooks';
+import { formatDate } from '../utils/helperFn';
 
 function Blog() {
 	const { id } = useParams();

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useCreateBlog } from '@hooks/blogHooks';
 import { FieldApi, useForm } from '@tanstack/react-form';
 import { Editor } from '@tinymce/tinymce-react';
 import { useState } from 'react';
+import { useCreateBlog } from '../hooks/blogHooks';
 
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 	return (

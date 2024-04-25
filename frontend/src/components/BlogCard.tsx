@@ -1,5 +1,5 @@
-import { blogCardProps } from '@utils/types';
 import { Link } from 'react-router-dom';
+import { blogCardProps } from '../utils/types';
 
 export function BlogCard({ id, author, title, content, createdAt }: blogCardProps) {
 	return (

@@ -1,8 +1,8 @@
-import { logOutUser } from '@service/apiAuth';
-import { queryClient } from '@utils/helperFn';
 import { IoMdLogOut } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { logOutUser } from '../service/apiAuth';
+import { queryClient } from '../utils/helperFn';
 
 export default function Header() {
 	const navigate = useNavigate();

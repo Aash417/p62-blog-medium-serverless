@@ -1,7 +1,7 @@
 import { SignupType } from '@aashishk17/medium-common';
-import { useAuth } from '@hooks/userHooks';
 import { ChangeEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/userHooks';
 
 function Auth({ type }: { type: 'signup' | 'login' }) {
 	const [postInputs, setPostInputs] = useState<SignupType>({

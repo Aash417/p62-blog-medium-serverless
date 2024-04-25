@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 
-function Applayout() {
+export default function AppLayout() {
 	return (
 		<div>
 			<Header />
@@ -11,5 +11,3 @@ function Applayout() {
 		</div>
 	);
 }
-
-export default Applayout;

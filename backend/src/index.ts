@@ -11,6 +11,7 @@ app.use(
 		origin: [
 			'http://localhost:5173',
 			'http://localhost:3000',
+			'http://localhost:4173',
 			'https://p62-blog-medium.vercel.app/',
 		],
 		credentials: true,

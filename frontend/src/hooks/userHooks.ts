@@ -10,12 +10,3 @@ export function useUser() {
 
 	return { user, isLoading };
 }
-
-export function useLogout() {
-	const { data: logout, isLoading } = useQuery({
-		queryKey: ['user'],
-		queryFn: getCurrentUser,
-	});
-
-	return { logout, isLoading };
-}

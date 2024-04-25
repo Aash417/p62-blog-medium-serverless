@@ -18,15 +18,13 @@ function Blog() {
 				<div className='pt-6 font-mono'>{parse(blog?.content || '')}</div>
 			</div>
 			<div className='col-span-4 pl-6'>
-				Author
 				<div className='flex w-full'>
-					<div className='pt-1 pr-2'>
+					<div className='pr-2 '>
 						<Avatar name={blog?.author.name || ''} />
 					</div>
 					<div className='flex gap-5'>
 						<div className='text-xl font-bold'> {blog?.author.name || 'Anonymous'}</div>
 						<div className=' text-slate-500'>{formatDate(blog?.createdAt || '')}</div>
-						{/* <div className='pt-2 text-slate-300'>Random catch phrase for user</div> */}
 					</div>
 				</div>
 			</div>

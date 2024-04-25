@@ -30,7 +30,7 @@ export const useCreateBlog = () => {
 		mutationFn: ({ title, content }: { title: string; content: string }) =>
 			createBlog({ title, content }),
 		onSuccess: (data) => {
-			toast.success('blog created');
+			toast.success('Blog posted');
 			queryClient.invalidateQueries({
 				queryKey: ['blogs'],
 			});

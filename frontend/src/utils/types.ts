@@ -33,3 +33,7 @@ export type oneBlogResponse = Pick<
 	ApiResponse,
 	'config' | 'headers' | 'request' | 'status' | 'statusText'
 > & { blog: blogDataType };
+
+export type blogCardProps = Pick<blogDataType, 'id' | 'title' | 'content' | 'createdAt'> & {
+	author: string;
+}; 

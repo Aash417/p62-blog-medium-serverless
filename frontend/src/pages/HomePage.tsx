@@ -16,10 +16,10 @@ function Blogs() {
 					<BlogCard
 						key={blog.id}
 						id={blog.id}
-						authorName={blog.author.name || 'Anonymous'}
+						author={blog.author.name || 'Anonymous'}
 						title={blog.title}
 						content={blog.title}
-						publishDate={formatDate(blog.createdAt)}
+						createdAt={formatDate(blog.createdAt)}
 					/>
 				))}
 			</div>

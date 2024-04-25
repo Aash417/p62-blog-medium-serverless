@@ -2,6 +2,7 @@ import { SignupType } from '@aashishk17/medium-common';
 import axios from 'axios';
 import { ChangeEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 function Auth({ type }: { type: 'signup' | 'login' }) {
 	const navigate = useNavigate();
@@ -13,16 +14,14 @@ function Auth({ type }: { type: 'signup' | 'login' }) {
 
 	async function sendRequest() {
 		try {
-			const res = await axios.post(
+			await axios.post(
 				`${import.meta.env.VITE_BackendUrl}/api/v1/user/${
 					type === 'signup' ? 'signup' : 'login'
 				}`,
 				postInputs,
 				{ withCredentials: true }
 			);
-
-			const { accessToken } = res.data;
-			localStorage.setItem('accessToken', accessToken);
+			toast.success('Welcome');
 			navigate('/');
 		} catch (error) {
 			console.log(error);

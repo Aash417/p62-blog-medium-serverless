@@ -31,17 +31,18 @@ userRouter.post('signup', async (c) => {
 		const createFields: SignupType = {
 			email: body.email,
 			password: body.password,
+			name: body.name || 'Anonymous',
 		};
-		if (body.name) createFields.name = body.name;
+		// if (body.name) createFields.name = body.name;
 
 		const user = await prisma.user.create({
 			data: createFields,
 		});
 		const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
-		setCookie(c, 'accessToken', jwt);
-		c.header('Authorization', jwt);
+		setCookie(c, 'accessToken', jwt, { path: '/', secure: true, sameSite: 'None' });
+		// c.header('Authorization', jwt);
 
-		return c.json({ msg: 'user created successfully.', accessToken: jwt });
+		return c.json({ msg: 'user created successfully.' });
 	} catch (error) {
 		c.status(400);
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {

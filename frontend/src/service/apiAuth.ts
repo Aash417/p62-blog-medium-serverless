@@ -13,3 +13,14 @@ export async function getCurrentUser(): Promise<UserDataType | undefined> {
 		handleAxiosError(error);
 	}
 }
+
+export async function logOutUser() {
+	try {
+		const response = await axios.get(`${import.meta.env.VITE_BackendUrl}/api/v1/user/logout`, {
+			withCredentials: true,
+		});
+		return response.data;
+	} catch (error) {
+		handleAxiosError(error);
+	}
+}

@@ -1,6 +1,7 @@
 import Blog from '@pages/Blog';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { queryClient } from '@utils/helperFn';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import AppLayout from './components/AppLayout';
@@ -9,14 +10,6 @@ import HomePage from './pages/HomePage';
 import Publish from './pages/Publish';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
-
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			staleTime: 1000,
-		},
-	},
-});
 
 function App() {
 	return (

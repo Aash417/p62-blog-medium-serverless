@@ -1,7 +1,11 @@
-import { HiOutlineUserCircle } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { logOutUser } from '@service/apiAuth';
+import { queryClient } from '@utils/helperFn';
+import { IoMdLogOut } from 'react-icons/io';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Header() {
+	const navigate = useNavigate();
+
 	return (
 		<header className='flex justify-between px-10 py-4 border-b'>
 			<Link to='/'>
@@ -16,9 +20,15 @@ export default function Header() {
 					</svg>
 					Write
 				</Link>
-				<Link to={'/login'}>
-					<HiOutlineUserCircle size={30} />
-				</Link>
+				<button
+					onClick={() => {
+						logOutUser();
+						queryClient.clear();
+						navigate('/login');
+					}}
+				>
+					<IoMdLogOut size={30} />
+				</button>
 			</nav>
 		</header>
 	);

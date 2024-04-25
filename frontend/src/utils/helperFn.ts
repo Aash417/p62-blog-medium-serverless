@@ -1,3 +1,4 @@
+import { QueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 export function handleAxiosError(error: Error | unknown) {
@@ -17,3 +18,11 @@ export function formatDate(dateString: string): string {
 	const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
 	return date.toLocaleDateString('en-US', options);
 }
+
+export const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			staleTime: 1000,
+		},
+	},
+});

@@ -2,13 +2,14 @@ import { SignupType, signinInput, signupInput } from '@aashishk17/medium-common'
 import { Prisma, PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { Hono } from 'hono';
-import { getCookie, setCookie } from 'hono/cookie';
+import { deleteCookie, getCookie, setCookie } from 'hono/cookie';
 import { sign, verify } from 'hono/jwt';
 
 export const userRouter = new Hono<{
 	Bindings: {
 		DATABASE_URL: string;
 		JWT_SECRET: string;
+		Domain: string;
 	};
 }>();
 
@@ -62,7 +63,6 @@ userRouter.post('login', async (c) => {
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
-
 	const body = await c.req.json();
 	const { success } = signinInput.safeParse(body);
 	if (!success) {
@@ -77,7 +77,6 @@ userRouter.post('login', async (c) => {
 			password: body.password,
 		},
 	});
-
 	if (!user) {
 		c.status(403);
 		return c.json({ error: 'Incorrect email & password.' });
@@ -85,11 +84,7 @@ userRouter.post('login', async (c) => {
 	const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
 	setCookie(c, 'accessToken', jwt, { path: '/', secure: true, sameSite: 'None' });
 	// c.header('Authorization', jwt);
-
-	return c.json({
-		msg: 'Logged in successfully',
-		// accessToken: jwt,
-	});
+	return c.json({ msg: 'Logged in successfully' });
 });
 
 userRouter.get('currentUser', async (c) => {
@@ -118,4 +113,15 @@ userRouter.get('currentUser', async (c) => {
 			msg: 'unauthorized request.',
 		});
 	}
+});
+
+userRouter.get('logout', async (c) => {
+	deleteCookie(c, 'accessToken', {
+		path: '/',
+		sameSite: 'None',
+		secure: true,
+		domain: `${c.env.Domain}`,
+	});
+	c.status(200);
+	return c.json({ msg: 'Logged out successfully' });
 });

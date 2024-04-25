@@ -2,7 +2,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Toaster } from 'sonner';
-import AppLayout from './components/AppLayout';
+import AppLayout from './components/AppLayout.tsx';
 import ProtectedRoute from './components/ProtectedRoute';
 import Blog from './pages/Blog';
 import HomePage from './pages/HomePage';

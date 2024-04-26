@@ -1,3 +1,4 @@
+import { SignupType } from '@aashishk17/medium-common';
 import axios from 'axios';
 import { handleAxiosError } from '../utils/helperFn';
 import { UserDataType } from '../utils/types';
@@ -25,17 +26,11 @@ export async function logOutUser() {
 	}
 }
 
-// export async function logInSignUpUser(type: string, postInputs: SignupType) {
-// 	try {
-// 		const response = await axios.post(
-// 			`${import.meta.env.VITE_BackendUrl}/api/v1/user/${
-// 				type === 'signup' ? 'signup' : 'login'
-// 			}`,
-// 			postInputs,
-// 			{ withCredentials: true }
-// 		);
-// 		return response.data;
-// 	} catch (error) {
-// 		handleAxiosError(error);
-// 	}
-// }
+export async function logInSignUpUser(type: string, postInputs: SignupType) {
+	const response = await axios.post(
+		`${import.meta.env.VITE_BackendUrl}/api/v1/user/${type === 'signup' ? 'signup' : 'login'}`,
+		postInputs,
+		{ withCredentials: true }
+	);
+	return response.data;
+}

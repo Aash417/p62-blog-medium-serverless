@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { getCurrentUser } from '../service/apiAuth';
+import { getCurrentUser, logInSignUpUser } from '../service/apiAuth';
 
 export function useUser() {
 	const { data: user, isLoading } = useQuery({
@@ -19,14 +19,15 @@ export function useAuth() {
 	const navigate = useNavigate();
 	const { mutate } = useMutation({
 		mutationFn: async ({ type, postInputs }: { type: string; postInputs: SignupType }) => {
-			// logInSignUpUser(type, postInputs);
-			await axios.post(
-				`${import.meta.env.VITE_BackendUrl}/api/v1/user/${
-					type === 'signup' ? 'signup' : 'login'
-				}`,
-				postInputs,
-				{ withCredentials: true }
-			);
+			await logInSignUpUser(type, postInputs);
+
+			// await axios.post(
+			// 	`${import.meta.env.VITE_BackendUrl}/api/v1/user/${
+			// 		type === 'signup' ? 'signup' : 'login'
+			// 	}`,
+			// 	postInputs,
+			// 	{ withCredentials: true }
+			// );
 		},
 		onSuccess: () => {
 			toast.success('Welcome');

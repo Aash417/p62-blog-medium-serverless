@@ -1,7 +1,8 @@
 import { SignupType } from '@aashishk17/medium-common';
 import { ChangeEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks/userHooks';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { logInSignUpUser } from '../service/apiAuth';
 
 function Auth({ type }: { type: 'signup' | 'login' }) {
 	const [postInputs, setPostInputs] = useState<SignupType>({
@@ -9,7 +10,7 @@ function Auth({ type }: { type: 'signup' | 'login' }) {
 		email: '',
 		password: '',
 	});
-	const { mutate } = useAuth();
+	const navigate = useNavigate();
 
 	return (
 		<div className='flex flex-col justify-center h-screen'>
@@ -64,7 +65,16 @@ function Auth({ type }: { type: 'signup' | 'login' }) {
 							}}
 						/>
 						<button
-							onClick={() => mutate({ type, postInputs })}
+							onClick={() =>
+								toast.promise(logInSignUpUser(type, postInputs), {
+									loading: 'loading...',
+									success: () => {
+										navigate('/');
+										return `Welcome`;
+									},
+									error: 'Something went wrong',
+								})
+							}
 							type='button'
 							className='mt-8 w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700'
 						>

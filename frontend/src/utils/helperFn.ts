@@ -1,11 +1,9 @@
 import { QueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { toast } from 'sonner';
 
 export function handleAxiosError(error: Error | unknown) {
 	const axiosError = error as AxiosError;
 	if (axiosError.response) {
-		toast.error(`${axiosError.response.data}`);
 		throw axiosError.response.data;
 	} else if (axiosError.request) {
 		console.error('No response received:', axiosError.request);

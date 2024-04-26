@@ -83,8 +83,12 @@ userRouter.post('login', async (c) => {
 		return c.json({ msg: 'Incorrect email & password.' });
 	}
 	const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
-	setCookie(c, 'accessToken', jwt, { path: '/', secure: true, sameSite: 'None' });
-	// c.header('Authorization', jwt);
+	setCookie(c, 'accessToken', jwt, {
+		path: '/',
+		secure: true,
+		sameSite: 'None',
+		// domain: `${c.env.Domain}`,
+	});
 	return c.json({ msg: 'Logged in successfully' });
 });
 
@@ -121,7 +125,7 @@ userRouter.get('logout', async (c) => {
 		path: '/',
 		sameSite: 'None',
 		secure: true,
-		domain: `${c.env.Domain}`,
+		// domain: `${c.env.Domain}`,
 	});
 	c.status(200);
 	return c.json({ msg: 'Logged out successfully' });

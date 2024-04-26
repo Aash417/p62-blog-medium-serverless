@@ -5,6 +5,7 @@ export default function AppLayout() {
 	return (
 		<div>
 			<Header />
+			{/* <FloatingNavDemo /> */}
 			<main>
 				<Outlet />
 			</main>

@@ -1,20 +1,28 @@
 import { Avatar } from '@components/BlogCard';
 import Loader from '@components/Loader';
 import { useBlog } from '@hooks/blogHooks';
+import { useBookmark, useCheckBookmarkStatus } from '@hooks/bookmarkHooks';
 import { useCheckLikeStatus, useLike } from '@hooks/likeHooks';
 import { formatDate } from '@utils/helperFn';
 import parse from 'html-react-parser';
 import { useEffect, useState } from 'react';
 import { BiLike, BiSolidLike } from 'react-icons/bi';
+import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 
 function Blog() {
 	const { id } = useParams();
-	const [isLiked, setIsLiked] = useState(false);
-	const { likeStatus } = useCheckLikeStatus(id || '');
 	const { isLoading, blog } = useBlog(id || '');
-	const { likeBlog, status } = useLike();
+
+	const [isLiked, setIsLiked] = useState(false);
+	const [isBookmarked, setIsBookmarked] = useState(false);
+
+	const { likeStatus } = useCheckLikeStatus(id || '');
+	const { bookmarkStatus } = useCheckBookmarkStatus(id || '');
+
+	const { likeBlog, isLiking } = useLike();
+	const { bookmarkBlog, isBookmarking } = useBookmark();
 
 	function handleLike() {
 		likeBlog({ blogId: String(id) });
@@ -22,9 +30,16 @@ function Blog() {
 		else setIsLiked(true);
 	}
 
+	function handleBookmark() {
+		bookmarkBlog({ blogId: String(id) });
+		if (isBookmarked) setIsBookmarked(false);
+		else setIsBookmarked(true);
+	}
+
 	useEffect(() => {
 		setIsLiked(likeStatus?.msg || false);
-	}, [likeStatus?.msg]);
+		setIsBookmarked(bookmarkStatus?.msg || false);
+	}, [bookmarkStatus?.msg, likeStatus?.msg]);
 
 	if (isLoading) return <Loader />;
 
@@ -44,15 +59,28 @@ function Blog() {
 						<div className=' text-slate-500'>{formatDate(blog?.createdAt || '')}</div>
 						<button onClick={handleLike}>
 							{isLiked ? (
-								status === 'pending' ? (
+								isLiking == 'pending' ? (
 									<ClipLoader size={20} />
 								) : (
 									<BiSolidLike size={20} />
 								)
-							) : status == 'pending' ? (
+							) : isLiking == 'pending' ? (
 								<ClipLoader size={20} />
 							) : (
 								<BiLike size={20} />
+							)}
+						</button>
+						<button onClick={handleBookmark}>
+							{isBookmarked ? (
+								isBookmarking == 'pending' ? (
+									<ClipLoader size={20} />
+								) : (
+									<IoBookmark size={20} />
+								)
+							) : isBookmarking == 'pending' ? (
+								<ClipLoader size={20} />
+							) : (
+								<IoBookmarkOutline size={20} />
 							)}
 						</button>
 					</div>

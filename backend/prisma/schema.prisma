@@ -20,7 +20,8 @@ model User {
   password  String
   createdAt DateTime @default(now())
   blogs     Blog[]
-  Likes     Like[]
+  likes     Like[]
+  bookmarks Bookmark[]
 }
 
 model Blog {
@@ -31,10 +32,19 @@ model Blog {
   published Boolean  @default(false)
   author    User     @relation(fields: [authorId], references: [id])
   authorId  Int
-  Likes     Like[]
+  likes     Like[]
+  bookmarks Bookmark[]
 }
 
 model Like {
+  id       Int  @id @default(autoincrement())
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id])
+  blogId   Int
+  blog     Blog @relation(fields: [blogId], references: [id])
+}
+
+model Bookmark{
   id       Int  @id @default(autoincrement())
   authorId Int
   author   User @relation(fields: [authorId], references: [id])

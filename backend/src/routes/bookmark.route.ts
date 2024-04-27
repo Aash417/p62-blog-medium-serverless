@@ -4,7 +4,7 @@ import { Hono } from 'hono';
 import { getCookie } from 'hono/cookie';
 import { verify } from 'hono/jwt';
 
-export const likeRouter = new Hono<{
+export const bookmarkRouter = new Hono<{
 	Bindings: {
 		DATABASE_URL: string;
 		JWT_SECRET: string;
@@ -14,7 +14,7 @@ export const likeRouter = new Hono<{
 	};
 }>();
 
-likeRouter.use('/*', async (c, next) => {
+bookmarkRouter.use('/*', async (c, next) => {
 	const token = getCookie(c, 'accessToken') || c.req.header('Authorization') || '';
 	if (!token) {
 		c.status(403);
@@ -26,64 +26,63 @@ likeRouter.use('/*', async (c, next) => {
 		await next();
 	} else {
 		c.status(403);
-
 		return c.json({
 			error: 'unauthorized request.',
 		});
 	}
 });
 
-likeRouter.post('/toggle', async (c) => {
+bookmarkRouter.post('/toggle', async (c) => {
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
 
 	try {
-		let like;
+		let bookmark;
 		const blogId = c.req.queries('blogId') ?? '';
 		const searchObj = {
 			authorId: Number(c.get('userId')),
 			blogId: Number(blogId),
 		};
 
-		const isLiked = await prisma.like.findFirst({
+		const isBookmarked = await prisma.bookmark.findFirst({
 			where: searchObj,
 		});
 
-		if (isLiked) {
-			await prisma.like.delete({
+		if (isBookmarked) {
+			await prisma.bookmark.delete({
 				where: {
-					id: isLiked?.id,
+					id: isBookmarked?.id,
 				},
 			});
 		} else {
-			like = await prisma.like.create({
+			bookmark = await prisma.bookmark.create({
 				data: searchObj,
 			});
 		}
 
-		return c.json({ msg: like ? `liked` : `unliked` });
+		return c.json({ msg: bookmark ? `bookmarked` : `unbookmarked` });
 	} catch (error) {
 		console.log(error);
-		return c.json({ msg: 'Like operation failed' });
+		return c.json({ msg: 'Bookmark operation failed', error });
 	}
 });
 
-likeRouter.get('/checkLike', async (c) => {
+bookmarkRouter.get('/checkBookmark', async (c) => {
 	try {
 		const prisma = new PrismaClient({
 			datasourceUrl: c.env?.DATABASE_URL,
 		}).$extends(withAccelerate());
 
 		const blogId = c.req.queries('blogId') ?? '';
-		const isLiked = await prisma.like.findFirst({
+		const isBookmarked = await prisma.like.findFirst({
 			where: {
 				authorId: Number(c.get('userId')),
 				blogId: Number(blogId),
 			},
 		});
 
-		return c.json({ msg: isLiked ? true : false });
+		return c.json({ msg: isBookmarked ? true : false });
 	} catch (error) {
 		console.log(error);
 		return c.json({ msg: 'Like operation failed' });

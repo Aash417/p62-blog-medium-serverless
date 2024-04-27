@@ -5,14 +5,14 @@ export const useLike = () => {
 	const {
 		mutate: likeBlog,
 		data: likeData,
-		status,
+		status: isLiking,
 	} = useMutation({
 		mutationFn: ({ blogId }: { blogId: string }): Promise<{ msg: string } | undefined> =>
 			toggleLike(blogId),
 		retry: false,
 	});
 
-	return { likeBlog, likeData, status };
+	return { likeBlog, likeData, isLiking };
 };
 
 export const useCheckLikeStatus = (blogId: string) => {

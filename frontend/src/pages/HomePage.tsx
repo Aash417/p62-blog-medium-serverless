@@ -8,6 +8,8 @@ function Blogs() {
 	const { blogs, isLoading } = useBlogs();
 
 	if (isLoading) return <Loader />;
+	if (blogs.length == 0)
+		return <div className='flex items-center justify-center '>no post available</div>;
 
 	return (
 		<div className='flex items-center justify-center '>

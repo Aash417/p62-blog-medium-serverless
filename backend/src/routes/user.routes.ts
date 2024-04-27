@@ -33,7 +33,6 @@ userRouter.post('signup', async (c) => {
 			password: body.password,
 			name: body.name || 'Anonymous',
 		};
-		// if (body.name) createFields.name = body.name;
 
 		const user = await prisma.user.create({
 			data: createFields,
@@ -109,9 +108,7 @@ userRouter.get('currentUser', async (c) => {
 				id: response.id,
 			},
 		});
-		return c.json({
-			user,
-		});
+		return c.json({ ...user });
 	} else {
 		c.status(403);
 		return c.json({

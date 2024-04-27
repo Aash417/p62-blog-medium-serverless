@@ -14,20 +14,30 @@ datasource db {
 }
 
 model User {
-  id       Int  @id @default(autoincrement())
-  email    String  @unique
-  name     String?
-  password String
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String
   createdAt DateTime @default(now())
-  posts    Post[]
+  blogs     Blog[]
+  Likes     Like[]
 }
 
-model Post {
-  id        Int  @id @default(autoincrement())
+model Blog {
+  id        Int      @id @default(autoincrement())
   title     String
   content   String
   createdAt DateTime @default(now())
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
   authorId  Int
+  Likes     Like[]
+}
+
+model Like {
+  id       Int  @id @default(autoincrement())
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id])
+  blogId   Int
+  blog     Blog @relation(fields: [blogId], references: [id])
 }

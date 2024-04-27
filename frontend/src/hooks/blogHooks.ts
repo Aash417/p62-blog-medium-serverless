@@ -7,6 +7,7 @@ export const useBlogs = () => {
 	const { data, isLoading } = useQuery({
 		queryKey: ['blogs'],
 		queryFn: getAllBlogs,
+		retry: false,
 	});
 	const blogs = data?.blogs || [];
 	return { isLoading, blogs };
@@ -26,6 +27,7 @@ export const useCreateBlog = () => {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const { mutate, isPending } = useMutation({
+		mutationKey: ['createBlog'],
 		mutationFn: ({ title, content }: { title: string; content: string }) =>
 			createBlog({ title, content }),
 		onSuccess: (data) => {

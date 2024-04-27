@@ -20,14 +20,6 @@ export function useAuth() {
 	const { mutate } = useMutation({
 		mutationFn: async ({ type, postInputs }: { type: string; postInputs: SignupType }) => {
 			await logInSignUpUser(type, postInputs);
-
-			// await axios.post(
-			// 	`${import.meta.env.VITE_BackendUrl}/api/v1/user/${
-			// 		type === 'signup' ? 'signup' : 'login'
-			// 	}`,
-			// 	postInputs,
-			// 	{ withCredentials: true }
-			// );
 		},
 		onSuccess: () => {
 			toast.success('Welcome');

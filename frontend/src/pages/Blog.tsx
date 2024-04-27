@@ -1,13 +1,30 @@
+import { Avatar } from '@components/BlogCard';
+import Loader from '@components/Loader';
+import { useBlog } from '@hooks/blogHooks';
+import { useCheckLikeStatus, useLike } from '@hooks/likeHooks';
+import { formatDate } from '@utils/helperFn';
 import parse from 'html-react-parser';
+import { useEffect, useState } from 'react';
+import { BiLike, BiSolidLike } from 'react-icons/bi';
 import { useParams } from 'react-router-dom';
-import { Avatar } from '../components/BlogCard';
-import Loader from '../components/Loader';
-import { useBlog } from '../hooks/blogHooks';
-import { formatDate } from '../utils/helperFn';
+import { ClipLoader } from 'react-spinners';
 
 function Blog() {
 	const { id } = useParams();
+	const [isLiked, setIsLiked] = useState(false);
+	const { likeStatus } = useCheckLikeStatus(id || '');
 	const { isLoading, blog } = useBlog(id || '');
+	const { likeBlog, status } = useLike();
+
+	function handleLike() {
+		likeBlog({ blogId: String(id) });
+		if (isLiked) setIsLiked(false);
+		else setIsLiked(true);
+	}
+
+	useEffect(() => {
+		setIsLiked(likeStatus?.msg || false);
+	}, [likeStatus?.msg]);
 
 	if (isLoading) return <Loader />;
 
@@ -25,6 +42,19 @@ function Blog() {
 					<div className='flex gap-5'>
 						<div className='text-xl font-bold'> {blog?.author.name || 'Anonymous'}</div>
 						<div className=' text-slate-500'>{formatDate(blog?.createdAt || '')}</div>
+						<button onClick={handleLike}>
+							{isLiked ? (
+								status === 'pending' ? (
+									<ClipLoader size={20} />
+								) : (
+									<BiSolidLike size={20} />
+								)
+							) : status == 'pending' ? (
+								<ClipLoader size={20} />
+							) : (
+								<BiLike size={20} />
+							)}
+						</button>
 					</div>
 				</div>
 			</div>

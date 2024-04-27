@@ -39,7 +39,7 @@ blogRouter.get('/all', async (c) => {
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
 
-	const blogs = await prisma.post.findMany({
+	const blogs = await prisma.blog.findMany({
 		select: {
 			id: true,
 			author: {
@@ -62,7 +62,7 @@ blogRouter.get('/id/:id', async (c) => {
 
 	try {
 		const id = c.req.param('id');
-		const blog = await prisma.post.findFirst({
+		const blog = await prisma.blog.findFirst({
 			where: {
 				id: Number(id),
 			},
@@ -104,7 +104,7 @@ blogRouter.post('/create', async (c) => {
 		});
 	}
 
-	const blog = await prisma.post.create({
+	const blog = await prisma.blog.create({
 		data: {
 			title: body.title,
 			content: body.content,
@@ -133,7 +133,7 @@ blogRouter.patch('/update', async (c) => {
 	if (body.title) updateFields.title = body.title;
 	if (body.content) updateFields.content = body.content;
 
-	await prisma.post.update({
+	await prisma.blog.update({
 		where: {
 			id: body.id,
 			authorId: Number(userId),

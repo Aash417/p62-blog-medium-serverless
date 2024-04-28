@@ -35,32 +35,37 @@ blogRouter.use('/*', async (c, next) => {
 });
 
 blogRouter.get('/all', async (c) => {
-	const prisma = new PrismaClient({
-		datasourceUrl: c.env?.DATABASE_URL,
-	}).$extends(withAccelerate());
+	try {
+		const prisma = new PrismaClient({
+			datasourceUrl: c.env?.DATABASE_URL,
+		}).$extends(withAccelerate());
 
-	const blogs = await prisma.blog.findMany({
-		select: {
-			id: true,
-			author: {
-				select: {
-					name: true,
+		const blogs = await prisma.blog.findMany({
+			select: {
+				id: true,
+				author: {
+					select: {
+						name: true,
+					},
 				},
+				title: true,
+				content: true,
+				createdAt: true,
 			},
-			title: true,
-			content: true,
-			createdAt: true,
-		},
-	});
-	return c.json({ blogs });
+		});
+		return c.json({ blogs });
+	} catch (error) {
+		console.log(error);
+		return c.text('error occurred in blog route');
+	}
 });
 
 blogRouter.get('/id/:id', async (c) => {
-	const prisma = new PrismaClient({
-		datasourceUrl: c.env?.DATABASE_URL,
-	}).$extends(withAccelerate());
-
 	try {
+		const prisma = new PrismaClient({
+			datasourceUrl: c.env?.DATABASE_URL,
+		}).$extends(withAccelerate());
+
 		const id = c.req.param('id');
 		const blog = await prisma.blog.findFirst({
 			where: {
@@ -80,7 +85,8 @@ blogRouter.get('/id/:id', async (c) => {
 		});
 		return c.json({ blog });
 	} catch (error) {
-		return c.text('error occurred');
+		console.log(error);
+		return c.text('error occurred in blog route');
 	}
 });
 
@@ -91,55 +97,93 @@ blogRouter.get('/getSession', async (c) => {
 });
 
 blogRouter.post('/create', async (c) => {
-	const prisma = new PrismaClient({
-		datasourceUrl: c.env?.DATABASE_URL,
-	}).$extends(withAccelerate());
+	try {
+		const prisma = new PrismaClient({
+			datasourceUrl: c.env?.DATABASE_URL,
+		}).$extends(withAccelerate());
+		const body = await c.req.json();
 
-	const body = await c.req.json();
-	const { success } = createPostInput.safeParse(body);
-	if (!success) {
-		c.status(400);
-		return c.json({
-			message: 'Inputs are not correct',
+		const { success } = createPostInput.safeParse(body);
+		if (!success) {
+			c.status(400);
+			return c.json({
+				message: 'Inputs are not correct',
+			});
+		}
+		const blog = await prisma.blog.create({
+			data: {
+				title: body.title,
+				content: body.content,
+				authorId: Number(c.get('userId')),
+			},
 		});
+		return c.json({ blog });
+	} catch (error) {
+		console.log(error);
+		return c.text('error occurred in blog route');
 	}
-
-	const blog = await prisma.blog.create({
-		data: {
-			title: body.title,
-			content: body.content,
-			authorId: Number(c.get('userId')),
-		},
-	});
-	return c.json({ blog });
 });
 
 blogRouter.patch('/update', async (c) => {
-	const userId = c.get('userId');
-	const prisma = new PrismaClient({
-		datasourceUrl: c.env?.DATABASE_URL,
-	}).$extends(withAccelerate());
+	try {
+		const userId = c.get('userId');
+		const prisma = new PrismaClient({
+			datasourceUrl: c.env?.DATABASE_URL,
+		}).$extends(withAccelerate());
 
-	const body = await c.req.json();
-	const { success } = updatePostInput.safeParse(body);
-	if (!success) {
-		c.status(400);
-		return c.json({
-			message: 'Inputs are not correct',
+		const body = await c.req.json();
+		const { success } = updatePostInput.safeParse(body);
+		if (!success) {
+			c.status(400);
+			return c.json({
+				message: 'Inputs are not correct',
+			});
+		}
+
+		const updateFields: UpdatePostType = {};
+		if (body.title) updateFields.title = body.title;
+		if (body.content) updateFields.content = body.content;
+
+		await prisma.blog.update({
+			where: {
+				id: body.id,
+				authorId: Number(userId),
+			},
+			data: updateFields,
 		});
+
+		return c.json({ msg: 'Blog updated successfully.' });
+	} catch (error) {
+		console.log(error);
+		return c.text('error occurred in blog route');
 	}
+});
 
-	const updateFields: UpdatePostType = {};
-	if (body.title) updateFields.title = body.title;
-	if (body.content) updateFields.content = body.content;
+blogRouter.get('/myBlogs', async (c) => {
+	try {
+		const prisma = new PrismaClient({
+			datasourceUrl: c.env?.DATABASE_URL,
+		}).$extends(withAccelerate());
 
-	await prisma.blog.update({
-		where: {
-			id: body.id,
-			authorId: Number(userId),
-		},
-		data: updateFields,
-	});
-
-	return c.json({ msg: 'Blog updated successfully.' });
+		const blogs = await prisma.blog.findMany({
+			where: {
+				authorId: Number(c.get('userId')),
+			},
+			select: {
+				id: true,
+				author: {
+					select: {
+						name: true,
+					},
+				},
+				title: true,
+				content: true,
+				createdAt: true,
+			},
+		});
+		return c.json({ blogs });
+	} catch (error) {
+		console.log(error);
+		return c.text('error occurred in blog route');
+	}
 });

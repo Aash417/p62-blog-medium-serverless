@@ -74,30 +74,39 @@ export default function Header() {
 						<DropdownMenuContent>
 							<DropdownMenuLabel>My Account</DropdownMenuLabel>
 							<DropdownMenuSeparator />
-							<button onClick={() => navigate('/me/readingList')}>
-								<DropdownMenuItem>
-									<IoBookmarksOutline />
-									<span className='pb-1 ml-2 mr-9'>Bookmarks</span>
-								</DropdownMenuItem>
-							</button>
+							<DropdownMenuItem>
+								<button onClick={() => navigate('/me/readingList')}>
+									<div className='flex'>
+										<IoBookmarksOutline size={19} className='pt-1' />
+										<span className='pb-1 ml-2'>Bookmarks</span>
+									</div>
+								</button>
+							</DropdownMenuItem>
 
 							<DropdownMenuItem>
-								<MdOutlineLibraryBooks />
-								<span className='pb-1 ml-2'>Blogs</span>
+								<button onClick={() => navigate('/me/publishedBlogs')}>
+									<div className='flex'>
+										<MdOutlineLibraryBooks size={19} className='pt-1' />
+										<span className='pb-1 ml-2'>Blogs</span>
+									</div>
+								</button>
 							</DropdownMenuItem>
-							<button
-								onClick={() => {
-									logOutUser();
-									queryClient.clear();
-									toast.success('Logged out');
-									navigate('/login');
-								}}
-							>
-								<DropdownMenuItem>
-									<IoMdLogOut />
-									<span className='pb-1 ml-2 mr-12'>Logout</span>
-								</DropdownMenuItem>
-							</button>
+
+							<DropdownMenuItem>
+								<button
+									onClick={() => {
+										logOutUser();
+										queryClient.clear();
+										toast.success('Logged out');
+										navigate('/login');
+									}}
+								>
+									<div className='flex'>
+										<IoMdLogOut size={19} className='pt-1' />
+										<span className='pb-1 ml-2'>Logout</span>
+									</div>
+								</button>
+							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</nav>

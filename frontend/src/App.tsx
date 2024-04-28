@@ -8,6 +8,7 @@ import Blog from './pages/Blog';
 import Bookmarks from './pages/Bookmarks';
 import HomePage from './pages/HomePage';
 import Publish from './pages/Publish';
+import Published from './pages/Published';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import { queryClient } from './utils/helperFn';
@@ -31,6 +32,7 @@ function App() {
 							<Route path='/publish' element={<Publish />} />
 							<Route path='/blog/:id' element={<Blog />} />
 							<Route path='/me/readingList' element={<Bookmarks />} />
+							<Route path='/me/publishedBlogs' element={<Published />} />
 						</Route>
 						<Route path='/login' element={<Signin />} />
 						<Route path='/signup' element={<Signup />} />

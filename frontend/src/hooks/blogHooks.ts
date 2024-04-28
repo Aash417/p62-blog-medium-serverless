@@ -1,4 +1,4 @@
-import { createBlog, getAllBlogs, getOneBlog } from '@/service/apiBlogs';
+import { createBlog, getAllBlogs, getMyBlogs, getOneBlog } from '@/service/apiBlogs';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -43,4 +43,14 @@ export const useCreateBlog = () => {
 		},
 	});
 	return { mutate, isPending };
+};
+
+export const useMyBlogs = () => {
+	const { data, isLoading } = useQuery({
+		queryKey: ['myBlogs'],
+		queryFn: getMyBlogs,
+		retry: false,
+	});
+	const blogs = data?.blogs || [];
+	return { isLoading, blogs };
 };

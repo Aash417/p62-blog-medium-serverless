@@ -37,3 +37,14 @@ export async function createBlog({ title, content }: { title: string; content: s
 		handleAxiosError(error);
 	}
 }
+
+export async function getMyBlogs(): Promise<allBlogsResponse | undefined> {
+	try {
+		const response = await axios.get(`${import.meta.env.VITE_BackendUrl}/api/v1/blog/myBlogs`, {
+			withCredentials: true,
+		});
+		return response.data;
+	} catch (error) {
+		handleAxiosError(error);
+	}
+}

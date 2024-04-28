@@ -38,7 +38,7 @@ function Blog() {
 	useEffect(() => {
 		setIsLiked(likeStatus?.msg || false);
 		setIsBookmarked(bookmarkStatus?.msg || false);
-	}, [bookmarkStatus?.msg, likeStatus?.msg, isLiked]);
+	}, [bookmarkStatus?.msg, likeStatus?.msg]);
 
 	if (isLoading) return <Loader />;
 

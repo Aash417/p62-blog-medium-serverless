@@ -1,9 +1,9 @@
-import { Avatar } from '@components/BlogCard';
-import Loader from '@components/Loader';
-import { useBlog } from '@hooks/blogHooks';
-import { useBookmark, useCheckBookmarkStatus } from '@hooks/bookmarkHooks';
-import { useCheckLikeStatus, useLike } from '@hooks/likeHooks';
-import { formatDate } from '@utils/helperFn';
+import { Avatar } from '@/components/BlogCard';
+import Loader from '@/components/Loader';
+import { useBlog } from '@/hooks/blogHooks';
+import { useBookmark, useCheckBookmarkStatus } from '@/hooks/bookmarkHooks';
+import { useCheckLikeStatus, useLike } from '@/hooks/likeHooks';
+import { formatDate } from '@/utils/helperFn';
 import parse from 'html-react-parser';
 import { useEffect, useState } from 'react';
 import { BiLike, BiSolidLike } from 'react-icons/bi';
@@ -42,7 +42,6 @@ function Blog() {
 	}, [bookmarkStatus?.msg, likeStatus?.msg]);
 
 	if (isLoading) return <Loader />;
-
 	return (
 		<div className='grid w-full grid-cols-12 p-11 max-w-screen-2x'>
 			<div className='col-span-8 bg-red-2'>

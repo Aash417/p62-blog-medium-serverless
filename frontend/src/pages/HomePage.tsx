@@ -1,8 +1,8 @@
-import { BlogCard } from '../components/BlogCard';
-import Loader from '../components/Loader';
-import { useBlogs } from '../hooks/blogHooks';
-import { formatDate } from '../utils/helperFn';
-import { blogDataType } from '../utils/types';
+import { BlogCard } from '@/components/BlogCard';
+import Loader from '@/components/Loader';
+import { useBlogs } from '@/hooks/blogHooks';
+import { formatDate } from '@/utils/helperFn';
+import { blogDataType } from '@/utils/types';
 
 function Blogs() {
 	const { blogs, isLoading } = useBlogs();
@@ -20,7 +20,7 @@ function Blogs() {
 						id={blog.id}
 						author={blog.author.name || 'Anonymous'}
 						title={blog.title}
-						content={blog.title}
+						content={blog.content}
 						createdAt={formatDate(blog.createdAt)}
 					/>
 				))}

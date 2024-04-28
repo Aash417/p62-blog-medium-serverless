@@ -1,6 +1,6 @@
+import { handleAxiosError } from '@/utils/helperFn';
+import { allBlogsResponse, oneBlogResponse } from '@/utils/types';
 import axios from 'axios';
-import { handleAxiosError } from '../utils/helperFn';
-import { allBlogsResponse, oneBlogResponse } from '../utils/types';
 
 export async function getAllBlogs(): Promise<allBlogsResponse | undefined> {
 	try {

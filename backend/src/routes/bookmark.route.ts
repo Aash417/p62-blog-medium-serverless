@@ -88,3 +88,35 @@ bookmarkRouter.get('/checkBookmark', async (c) => {
 		return c.json({ msg: 'Like operation failed' });
 	}
 });
+
+bookmarkRouter.get('/all', async (c) => {
+	try {
+		const prisma = new PrismaClient({
+			datasourceUrl: c.env?.DATABASE_URL,
+		}).$extends(withAccelerate());
+
+		const savedBookmarks = await prisma.bookmark.findMany({
+			select: {
+				id: true,
+				blogId: true,
+				blog: {
+					select: {
+						title: true,
+						content: true,
+						createdAt: true,
+					},
+				},
+				author: {
+					select: {
+						name: true,
+					},
+				},
+			},
+		});
+
+		return c.json({ savedBookmarks });
+	} catch (error) {
+		console.log(error);
+		return c.json({ msg: 'Failed to fetch your bookmark' });
+	}
+});

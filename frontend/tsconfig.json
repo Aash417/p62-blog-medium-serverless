@@ -6,13 +6,7 @@
 		"module": "ESNext",
 		"skipLibCheck": true,
 		"paths": {
-			"@/*": ["./src/*"],
-			"@assets/*": ["./src/assets/*"],
-			"@components/*": ["./src/components/*"],
-			"@hooks/*": ["./src/hooks/*"],
-			"@pages/*": ["./src/pages/*"],
-			"@service/*": ["./src/service/*"],
-			"@utils/*": ["./src/utils/*"]
+			"@/*": ["./src/*"]
 		},
 
 		/* Bundler mode */

@@ -1,4 +1,5 @@
-import { handleAxiosError } from '@utils/helperFn';
+import { handleAxiosError } from '@/utils/helperFn';
+import { allSavedBookmarksResponse } from '@/utils/types';
 import axios from 'axios';
 
 export async function toggleBookmark(blogId: string) {
@@ -22,6 +23,17 @@ export async function checkBookmarkStatus(blogId: string) {
 			`${import.meta.env.VITE_BackendUrl}/api/v1/bookmark/checkBookmark?blogId=${blogId}`,
 			{ withCredentials: true }
 		);
+		return response.data;
+	} catch (error) {
+		handleAxiosError(error);
+	}
+}
+
+export async function getAllSavedBookmarks(): Promise<allSavedBookmarksResponse | undefined> {
+	try {
+		const response = await axios.get(`${import.meta.env.VITE_BackendUrl}/api/v1/bookmark/all`, {
+			withCredentials: true,
+		});
 		return response.data;
 	} catch (error) {
 		handleAxiosError(error);

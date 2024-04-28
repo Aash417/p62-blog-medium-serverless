@@ -1,9 +1,9 @@
+import { getCurrentUser, logInSignUpUser } from '@/service/apiAuth';
 import { SignupType } from '@aashishk17/medium-common';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { getCurrentUser, logInSignUpUser } from '../service/apiAuth';
 
 export function useUser() {
 	const { data: user, isLoading } = useQuery({

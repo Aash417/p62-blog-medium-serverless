@@ -5,6 +5,7 @@ import { Toaster } from 'sonner';
 import ProtectedRoute from './components/ProtectedRoute';
 import AppLayout from './pages/Applayout';
 import Blog from './pages/Blog';
+import Bookmarks from './pages/Bookmarks';
 import HomePage from './pages/HomePage';
 import Publish from './pages/Publish';
 import Signin from './pages/Signin';
@@ -29,6 +30,7 @@ function App() {
 							<Route index element={<HomePage />} />
 							<Route path='/publish' element={<Publish />} />
 							<Route path='/blog/:id' element={<Blog />} />
+							<Route path='/me/readingList' element={<Bookmarks />} />
 						</Route>
 						<Route path='/login' element={<Signin />} />
 						<Route path='/signup' element={<Signup />} />

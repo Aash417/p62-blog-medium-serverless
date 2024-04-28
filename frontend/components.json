@@ -11,7 +11,10 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@/components",
-    "utils": "@/utils"
+		"components": "@/components",
+		"hooks": "@/hooks",
+		"pages": "@/pages",
+		"service": "@/service",
+		"utils": "@/utils"
   }
 }

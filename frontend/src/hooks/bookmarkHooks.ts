@@ -1,4 +1,4 @@
-import { checkBookmarkStatus, toggleBookmark } from '@service/apiBookmark';
+import { checkBookmarkStatus, getAllSavedBookmarks, toggleBookmark } from '@/service/apiBookmark';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useBookmark = () => {
@@ -22,4 +22,14 @@ export const useCheckBookmarkStatus = (blogId: string) => {
 		retry: false,
 	});
 	return { bookmarkStatus };
+};
+
+export const useAllBookmarks = () => {
+	const { data, isLoading: isBookmarkLoading } = useQuery({
+		queryKey: ['bookmarks'],
+		queryFn: getAllSavedBookmarks,
+		retry: 2,
+	});
+	const bookmarks = data?.savedBookmarks || [];
+	return { bookmarks, isBookmarkLoading };
 };

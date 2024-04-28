@@ -74,17 +74,17 @@ export default function Header() {
 						<DropdownMenuContent>
 							<DropdownMenuLabel>My Account</DropdownMenuLabel>
 							<DropdownMenuSeparator />
-
-							<DropdownMenuItem>
-								<IoBookmarksOutline />
-								<span className='pb-1 ml-2'>Bookmarks</span>
-							</DropdownMenuItem>
+							<button onClick={() => navigate('/me/readingList')}>
+								<DropdownMenuItem>
+									<IoBookmarksOutline />
+									<span className='pb-1 ml-2 mr-9'>Bookmarks</span>
+								</DropdownMenuItem>
+							</button>
 
 							<DropdownMenuItem>
 								<MdOutlineLibraryBooks />
 								<span className='pb-1 ml-2'>Blogs</span>
 							</DropdownMenuItem>
-
 							<button
 								onClick={() => {
 									logOutUser();
@@ -95,7 +95,7 @@ export default function Header() {
 							>
 								<DropdownMenuItem>
 									<IoMdLogOut />
-									<span className='pb-1 ml-2 mr-9'>Logout</span>
+									<span className='pb-1 ml-2 mr-12'>Logout</span>
 								</DropdownMenuItem>
 							</button>
 						</DropdownMenuContent>

@@ -1,7 +1,7 @@
+import { handleAxiosError } from '@/utils/helperFn';
+import { UserDataType } from '@/utils/types';
 import { SignupType } from '@aashishk17/medium-common';
 import axios from 'axios';
-import { handleAxiosError } from '../utils/helperFn';
-import { UserDataType } from '../utils/types';
 
 export async function getCurrentUser(): Promise<UserDataType | undefined> {
 	try {

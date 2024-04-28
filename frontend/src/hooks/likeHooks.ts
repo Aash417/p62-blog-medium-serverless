@@ -1,4 +1,4 @@
-import { checkLikeStatus, toggleLike } from '@service/apiLike';
+import { checkLikeStatus, toggleLike } from '@/service/apiLike';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useLike = () => {

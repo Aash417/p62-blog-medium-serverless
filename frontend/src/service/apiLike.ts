@@ -1,4 +1,4 @@
-import { handleAxiosError } from '@utils/helperFn';
+import { handleAxiosError } from '@/utils/helperFn';
 import axios from 'axios';
 
 export async function toggleLike(blogId: string) {

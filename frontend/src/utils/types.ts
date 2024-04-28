@@ -24,10 +24,28 @@ export interface UserDataType {
 	createdAt: string;
 }
 
+export interface SavedBookmark {
+	id: number;
+	author: {
+		name: string;
+	};
+	blogId: number;
+	blog: {
+		title: string;
+		content: string;
+		createdAt: string;
+	};
+}
+
 export type allBlogsResponse = Pick<
 	ApiResponse,
 	'config' | 'headers' | 'request' | 'status' | 'statusText'
 > & { blogs: blogDataType[] };
+
+export type allSavedBookmarksResponse = Pick<
+	ApiResponse,
+	'config' | 'headers' | 'request' | 'status' | 'statusText'
+> & { savedBookmarks: SavedBookmark[] };
 
 export type oneBlogResponse = Pick<
 	ApiResponse,
@@ -36,4 +54,4 @@ export type oneBlogResponse = Pick<
 
 export type blogCardProps = Pick<blogDataType, 'id' | 'title' | 'content' | 'createdAt'> & {
 	author: string;
-}; 
+};

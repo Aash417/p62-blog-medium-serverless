@@ -1,5 +1,5 @@
+import { blogCardProps } from '@/utils/types';
 import { Link } from 'react-router-dom';
-import { blogCardProps } from '../utils/types';
 
 export function BlogCard({ id, author, title, content, createdAt }: blogCardProps) {
 	return (
@@ -7,7 +7,7 @@ export function BlogCard({ id, author, title, content, createdAt }: blogCardProp
 			<div className='pt-4 pb-2 border-b cursor-pointer border-slate-200'>
 				<div className='flex'>
 					<div className='flex flex-col justify-center pt-1'>
-						<Avatar name={author} />
+						{/* <Avatar name={author} /> */}
 					</div>
 					<div className='pl-2 text-sm font-extralight'>{author}</div>
 					<div className='flex flex-col justify-center pl-3'>
@@ -17,9 +17,9 @@ export function BlogCard({ id, author, title, content, createdAt }: blogCardProp
 				</div>
 
 				<div className='text-2xl font-bold '>{title.slice(0, 100)}</div>
-				<div className='text-sm font-extralight'>{content.slice(0, 200) + '...'}</div>
+				{/* <div className='text-sm font-extralight'>{content.slice(0, 90) + '...'}</div> */}
 				<div className='pt-4 text-sm font-thin text-slate-500'>{`${Math.ceil(
-					content.length / 100
+					content.length / 1000
 				)} min read`}</div>
 			</div>
 		</Link>

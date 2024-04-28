@@ -75,7 +75,7 @@ bookmarkRouter.get('/checkBookmark', async (c) => {
 		}).$extends(withAccelerate());
 
 		const blogId = c.req.queries('blogId') ?? '';
-		const isBookmarked = await prisma.like.findFirst({
+		const isBookmarked = await prisma.bookmark.findFirst({
 			where: {
 				authorId: Number(c.get('userId')),
 				blogId: Number(blogId),

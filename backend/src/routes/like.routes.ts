@@ -89,3 +89,23 @@ likeRouter.get('/checkLike', async (c) => {
 		return c.json({ msg: 'Like operation failed' });
 	}
 });
+
+likeRouter.get('/likeCount', async (c) => {
+	try {
+		const prisma = new PrismaClient({
+			datasourceUrl: c.env?.DATABASE_URL,
+		}).$extends(withAccelerate());
+
+		const blogId = c.req.queries('blogId') ?? '';
+		const totalLike = await prisma.like.count({
+			where: {
+				blogId: Number(blogId),
+			},
+		});
+
+		return c.json({ totalLike });
+	} catch (error) {
+		console.log(error);
+		return c.json({ msg: 'Like operation failed' });
+	}
+});

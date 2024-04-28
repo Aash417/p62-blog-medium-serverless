@@ -27,3 +27,16 @@ export async function checkLikeStatus(blogId: string) {
 		handleAxiosError(error);
 	}
 }
+
+export async function getLikeCount(blogId: string): Promise<{ totalLike: string } | undefined> {
+	try {
+		const response = await axios.get(
+			`${import.meta.env.VITE_BackendUrl}/api/v1/like/likeCount?blogId=${blogId}`,
+			{ withCredentials: true }
+		);
+		return response.data;
+	} catch (error) {
+		handleAxiosError(error);
+	}
+}
+ 

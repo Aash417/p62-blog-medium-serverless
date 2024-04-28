@@ -7,9 +7,11 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useUser } from '@/hooks/userHooks';
 import { logOutUser } from '@/service/apiAuth';
 import { queryClient } from '@/utils/helperFn';
 import { useEffect, useState } from 'react';
+import { HiOutlineUserCircle } from 'react-icons/hi2';
 import { IoMdLogOut } from 'react-icons/io';
 import { IoBookmarksOutline } from 'react-icons/io5';
 import { MdOutlineLibraryBooks } from 'react-icons/md';
@@ -22,6 +24,7 @@ export default function Header() {
 	const [prevScrollPos, setPrevScrollPos] = useState(0);
 	const [visible, setVisible] = useState(true);
 	const [scrollingDown, setScrollingDown] = useState(false);
+	const { user } = useUser();
 
 	const debounce = (func: any, delay: any) => {
 		let timeoutId: any;
@@ -72,7 +75,12 @@ export default function Header() {
 							<TbMenu2 size={25} />
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
-							<DropdownMenuLabel>My Account</DropdownMenuLabel>
+							<DropdownMenuLabel>
+								<div className='flex gap-2'>
+									<HiOutlineUserCircle size={22} className='' />
+									{user?.name}
+								</div>
+							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem>
 								<button onClick={() => navigate('/me/readingList')}>

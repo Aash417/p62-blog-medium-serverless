@@ -1,4 +1,5 @@
-import { checkLikeStatus, toggleLike } from '@/service/apiLike';
+import { checkLikeStatus, getLikeCount, toggleLike } from '@/service/apiLike';
+import { queryClient } from '@/utils/helperFn';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useLike = () => {
@@ -10,6 +11,9 @@ export const useLike = () => {
 		mutationFn: ({ blogId }: { blogId: string }): Promise<{ msg: string } | undefined> =>
 			toggleLike(blogId),
 		retry: false,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['likeCount'] });
+		},
 	});
 
 	return { likeBlog, likeData, isLiking };
@@ -22,4 +26,13 @@ export const useCheckLikeStatus = (blogId: string) => {
 		retry: false,
 	});
 	return { likeStatus };
+};
+
+export const useLikeCount = (blogId: string) => {
+	const { data: likeCount } = useQuery({
+		queryKey: ['likeCount'],
+		queryFn: () => getLikeCount(blogId),
+	});
+
+	return { likeCount };
 };

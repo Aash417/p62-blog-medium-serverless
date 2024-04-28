@@ -1,10 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { queryClient } from '@utils/helperFn';
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { logOutUser } from '@/service/apiAuth';
+import { queryClient } from '@/utils/helperFn';
 import { useEffect, useState } from 'react';
 import { IoMdLogOut } from 'react-icons/io';
+import { IoBookmarksOutline } from 'react-icons/io5';
+import { MdOutlineLibraryBooks } from 'react-icons/md';
+import { TbMenu2 } from 'react-icons/tb';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { logOutUser } from '../service/apiAuth';
 
 export default function Header() {
 	const navigate = useNavigate();
@@ -56,16 +67,39 @@ export default function Header() {
 						</svg>
 						Write
 					</Link>
-					<button
-						onClick={() => {
-							logOutUser();
-							queryClient.clear();
-							toast.success('Logged out');
-							navigate('/login');
-						}}
-					>
-						<IoMdLogOut size={25} />
-					</button>
+					<DropdownMenu>
+						<DropdownMenuTrigger>
+							<TbMenu2 size={25} />
+						</DropdownMenuTrigger>
+						<DropdownMenuContent>
+							<DropdownMenuLabel>My Account</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+
+							<DropdownMenuItem>
+								<IoBookmarksOutline />
+								<span className='pb-1 ml-2'>Bookmarks</span>
+							</DropdownMenuItem>
+
+							<DropdownMenuItem>
+								<MdOutlineLibraryBooks />
+								<span className='pb-1 ml-2'>Blogs</span>
+							</DropdownMenuItem>
+
+							<button
+								onClick={() => {
+									logOutUser();
+									queryClient.clear();
+									toast.success('Logged out');
+									navigate('/login');
+								}}
+							>
+								<DropdownMenuItem>
+									<IoMdLogOut />
+									<span className='pb-1 ml-2 mr-9'>Logout</span>
+								</DropdownMenuItem>
+							</button>
+						</DropdownMenuContent>
+					</DropdownMenu>
 				</nav>
 			</header>
 		</div>

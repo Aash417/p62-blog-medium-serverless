@@ -1,3 +1,4 @@
+import { Avatar } from '@/components/InitialsAvatar';
 import Loader from '@/components/Loader';
 import { useBlog } from '@/hooks/blogHooks';
 import { useBookmark, useCheckBookmarkStatus } from '@/hooks/bookmarkHooks';
@@ -44,16 +45,27 @@ function Blog() {
 
 	return (
 		<div className='grid w-full grid-cols-12 p-11 max-w-screen-2x'>
-			<div className='col-span-8 bg-red-2'>
+			{/* left */}
+			<div className='col-span-8 border-r bg-red-2 border-slate-200 '>
 				<div className='text-4xl font-extrabold'>{blog?.title}</div>
 				<div className='pt-6 font-mono'>{parse(blog?.content || '')}</div>
 			</div>
+			{/* right */}
 			<div className='col-span-4 pl-6'>
-				<div className='flex w-full'>
-					<div className='pr-2 '>{/* <Avatar name={blog?.author.name || ''} /> */}</div>
-					<div className='flex gap-4'>
-						<div className='text-xl font-bold'> {blog?.author.name || 'Anonymous'}</div>
-						<div className=' text-slate-500'>{formatDate(blog?.createdAt || '')}</div>
+				<div className='flex flex-col w-full'>
+					{/* upper */}
+					<div className='flex flex-row h-10 pt-2 border-b border-slate-200'>
+						<Avatar name={blog?.author.name || ''} />
+						<div className='pl-2 mb-1'>{blog?.author.name || 'Anonymous'}</div>
+						<div className='flex flex-col content-center p-3 font-light align-baseline '>
+							<div className='w-1 h-1 rounded-full bg-slate-500'></div>
+						</div>
+						<div className='font-light center-content'>
+							{formatDate(blog?.createdAt || '')}
+						</div>
+					</div>
+					{/* lower */}
+					<div className='flex flex-row h-10 gap-2 pt-2'>
 						<button onClick={handleLike}>
 							{isLiked ? (
 								isLiking == 'pending' ? (
@@ -67,7 +79,7 @@ function Blog() {
 								<BiLike size={20} />
 							)}
 						</button>
-						<span className='pr-4'>
+						<span className='pr-4 text-lg'>
 							{Number(likeCount?.totalLike) > 0 && likeCount?.totalLike}
 						</span>
 						<button onClick={handleBookmark}>

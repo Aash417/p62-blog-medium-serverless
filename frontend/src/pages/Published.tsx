@@ -9,11 +9,14 @@ export default function Published() {
 
 	if (isLoading) return <Loader />;
 	if (blogs.length == 0)
-		return <div className='flex items-center justify-center '>You havent posted yet</div>;
+		return (
+			<div className='flex items-center justify-center h-40 text-2xl font-bold font-Ubuntu'>You havent posted any blog yet </div>
+		);
 
 	return (
-		<div className='flex items-center justify-center '>
-			<div className='w-full font-mono rounded-lg lg:w-2/4 md:w-2/4'>
+		<div className='grid w-full grid-cols-12 p-11 max-w-screen-2x'>
+			{/* left */}
+			<div className='col-span-8 border-r border-slate-200 '>
 				{blogs.map((blog: blogDataType) => (
 					<BlogCard
 						key={blog.id}
@@ -25,6 +28,33 @@ export default function Published() {
 					/>
 				))}
 			</div>
+			{/* right */}
+			<div className='col-span-4 pl-6'>
+				<div className='flex flex-col w-full'>
+					{/* upper */}
+					<div className='flex flex-row h-10 pt-2 text-3xl font-bold border-b font-Nunito border-slate-200'>
+						Your Published Blogs
+					</div>
+					{/* lower */}
+				</div>
+			</div>
 		</div>
 	);
 }
+
+// return (
+// 	<div className='flex items-center justify-center '>
+// 		<div className='w-full font-mono rounded-lg lg:w-2/4 md:w-2/4'>
+// 			{blogs.map((blog: blogDataType) => (
+// 				<BlogCard
+// 					key={blog.id}
+// 					id={blog.id}
+// 					author={blog.author.name || 'Anonymous'}
+// 					title={blog.title}
+// 					content={blog.content}
+// 					createdAt={formatDate(blog.createdAt)}
+// 				/>
+// 			))}
+// 		</div>
+// 	</div>
+// );

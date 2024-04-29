@@ -11,13 +11,13 @@ import { useUser } from '@/hooks/userHooks';
 import { logOutUser } from '@/service/apiAuth';
 import { queryClient } from '@/utils/helperFn';
 import { useEffect, useState } from 'react';
-import { HiOutlineUserCircle } from 'react-icons/hi2';
 import { IoMdLogOut } from 'react-icons/io';
 import { IoBookmarksOutline } from 'react-icons/io5';
 import { MdOutlineLibraryBooks } from 'react-icons/md';
 import { TbMenu2 } from 'react-icons/tb';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { Avatar } from './InitialsAvatar';
 
 export default function Header() {
 	const navigate = useNavigate();
@@ -77,7 +77,8 @@ export default function Header() {
 						<DropdownMenuContent>
 							<DropdownMenuLabel>
 								<div className='flex gap-2'>
-									<HiOutlineUserCircle size={22} className='' />
+									{/* <HiOutlineUserCircle size={22} className='' /> */}
+									<Avatar name={user?.name || ''} />
 									{user?.name}
 								</div>
 							</DropdownMenuLabel>

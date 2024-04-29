@@ -17,6 +17,11 @@ module.exports = {
 			},
 		},
 		extend: {
+			fontFamily: {
+				Roboto: ['Roboto', 'sans-serif'],
+				Nunito: ['Nunito', 'sans-serif'],
+				Ubuntu: ['Ubuntu', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

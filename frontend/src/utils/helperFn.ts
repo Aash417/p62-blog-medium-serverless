@@ -35,3 +35,8 @@ export const queryClient = new QueryClient({
 		},
 	},
 });
+export function handleBookmark() {
+	bookmarkBlog({ blogId: String(id) });
+	if (isBookmarked) setIsBookmarked(false);
+	else setIsBookmarked(true);
+}

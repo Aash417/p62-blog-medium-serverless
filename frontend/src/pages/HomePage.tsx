@@ -13,7 +13,7 @@ function Blogs() {
 
 	return (
 		<div className='flex items-center justify-center '>
-			<div className='w-full font-mono rounded-lg lg:w-2/4 md:w-2/4'>
+			<div className='w-full rounded-lg lg:w-2/4 md:w-2/4'>
 				{blogs.map((blog: blogDataType) => (
 					<BlogCard
 						key={blog.id}

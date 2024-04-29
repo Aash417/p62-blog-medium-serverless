@@ -42,19 +42,4 @@ export default function Published() {
 	);
 }
 
-// return (
-// 	<div className='flex items-center justify-center '>
-// 		<div className='w-full font-mono rounded-lg lg:w-2/4 md:w-2/4'>
-// 			{blogs.map((blog: blogDataType) => (
-// 				<BlogCard
-// 					key={blog.id}
-// 					id={blog.id}
-// 					author={blog.author.name || 'Anonymous'}
-// 					title={blog.title}
-// 					content={blog.content}
-// 					createdAt={formatDate(blog.createdAt)}
-// 				/>
-// 			))}
-// 		</div>
-// 	</div>
-// );
+

@@ -14,9 +14,9 @@ export default function Published() {
 		);
 
 	return (
-		<div className='grid w-full grid-cols-12 p-11 max-w-screen-2x'>
+		<div className='grid w-full grid-flow-row p-5 sm:grid-cols-12 sm:p-11 max-w-screen-2x'>
 			{/* left */}
-			<div className='col-span-8 border-r border-slate-200 '>
+			<div className='border-r sm:order-first sm:col-span-8 bg-red-2 border-slate-200 '>
 				{blogs.map((blog: blogDataType) => (
 					<BlogCard
 						key={blog.id}
@@ -29,10 +29,10 @@ export default function Published() {
 				))}
 			</div>
 			{/* right */}
-			<div className='col-span-4 pl-6'>
+			<div className='order-first pl-12 pb-7 sm:pl-6 sm:pt-2 sm:col-span-4'>
 				<div className='flex flex-col w-full'>
 					{/* upper */}
-					<div className='flex flex-row h-10 pt-2 text-3xl font-bold border-b font-Nunito border-slate-200'>
+					<div className='flex flex-row text-3xl font-bold border-b sm:h-10 sm:pt-2 font-Nunito border-slate-200'>
 						Your Published Blogs
 					</div>
 					{/* lower */}

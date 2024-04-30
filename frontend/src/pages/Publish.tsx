@@ -83,6 +83,22 @@ function Publish() {
 					<div className='relative z-0 w-full mb-5 group'>
 						<form.Field
 							name='content'
+							validators={{
+								onChange: ({ value }) =>
+									!value
+										? 'Some content is required'
+										: value.length < 3
+										? 'content must be at least 5 characters'
+										: undefined,
+								onChangeAsyncDebounceMs: 500,
+								onChangeAsync: async ({ value }) => {
+									await new Promise((resolve) => setTimeout(resolve, 1000));
+									return (
+										value.includes('error') &&
+										'No "error" allowed in first name'
+									);
+								},
+							}}
 							children={(field) => (
 								<>
 									<Editor

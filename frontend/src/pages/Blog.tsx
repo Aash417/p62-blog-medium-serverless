@@ -44,14 +44,14 @@ function Blog() {
 	if (isLoading) return <Loader />;
 
 	return (
-		<div className='grid w-full grid-cols-12 p-11 max-w-screen-2x'>
+		<div className='grid w-full grid-flow-row p-5 sm:grid-cols-12 sm:p-11 max-w-screen-2x'>
 			{/* left */}
-			<div className='col-span-8 border-r bg-red-2 border-slate-200 '>
+			<div className='border-r sm:order-first sm:col-span-8 bg-red-2 border-slate-200 '>
 				<div className='text-4xl font-extrabold'>{blog?.title}</div>
 				<div className='pt-6 font-mono'>{parse(blog?.content || '')}</div>
 			</div>
 			{/* right */}
-			<div className='col-span-4 pl-6'>
+			<div className='order-first pb-5 sm:pl-6 sm:pt-2 sm:col-span-4'>
 				<div className='flex flex-col w-full'>
 					{/* upper */}
 					<div className='flex flex-row h-10 pt-2 border-b border-slate-200'>

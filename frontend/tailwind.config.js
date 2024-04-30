@@ -17,6 +17,9 @@ module.exports = {
 			},
 		},
 		extend: {
+			screens: {
+				custom: '600px', // Define your custom breakpoint here
+			},
 			fontFamily: {
 				Roboto: ['Roboto', 'sans-serif'],
 				Nunito: ['Nunito', 'sans-serif'],

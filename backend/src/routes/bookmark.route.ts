@@ -96,6 +96,9 @@ bookmarkRouter.get('/all', async (c) => {
 		}).$extends(withAccelerate());
 
 		const savedBookmarks = await prisma.bookmark.findMany({
+			where: {
+				authorId: Number(c.get('userId')),
+			},
 			select: {
 				id: true,
 				blogId: true,

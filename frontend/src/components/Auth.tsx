@@ -19,7 +19,9 @@ function Auth({ type }: { type: 'signup' | 'login' }) {
 				navigate('/');
 				return `Welcome`;
 			},
-			error: 'Something went wrong',
+			error: (er) => {
+				return er.response.data.msg;
+			},
 		});
 	}
 

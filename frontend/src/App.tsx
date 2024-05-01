@@ -1,5 +1,6 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Analytics } from '@vercel/analytics/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -18,6 +19,7 @@ function App() {
 		<>
 			<QueryClientProvider client={queryClient}>
 				<ReactQueryDevtools initialIsOpen={true} buttonPosition='bottom-left' />
+				<Analytics />
 				<BrowserRouter>
 					<Toaster />
 					<Routes>
